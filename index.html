@@ -3,9 +3,1357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Creative Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 107, 0, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -250px;
+            right: -250px;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #ff6b00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 1.8rem;
+            color: #ff6b00;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 60px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b00, #ff9500);
+            border-radius: 3px;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 20px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: #ff6b00;
+            box-shadow: 0 20px 40px rgba(255, 107, 0, 0.3);
+        }
+
+        .project-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff6b00, #ff9500);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .project-card p {
+            color: #aaa;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Achievements Timeline */
+        .achievements-container {
+            position: relative;
+            padding: 50px 0;
+        }
+
+        .achievement-item {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border-left: 5px solid #ff6b00;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .achievement-item:hover {
+            transform: translateX(10px);
+            box-shadow: -10px 10px 30px rgba(255, 107, 0, 0.2);
+        }
+
+        .achievement-item h3 {
+            color: #ff6b00;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .achievement-item .date {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .achievement-item p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* Education Cards */
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .education-card {
+            background: linear-gradient(135deg, #ff6b00 0%, #ff9500 100%);
+            border-radius: 20px;
+            padding: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .education-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+        }
+
+        .education-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px rgba(255, 107, 0, 0.4);
+        }
+
+        .education-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+        .education-card .institution {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .education-card .year {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Experience Timeline */
+        .experience-timeline {
+            position: relative;
+            padding: 50px 0;
+        }
+
+        .experience-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 50px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .experience-dot {
+            width: 20px;
+            height: 20px;
+            background: #ff6b00;
+            border-radius: 50%;
+            margin-right: 30px;
+            margin-top: 5px;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .experience-content {
+            flex: 1;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .experience-item:hover .experience-content {
+            border-color: #ff6b00;
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.2);
+        }
+
+        .experience-content h3 {
+            color: #ff6b00;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .experience-content .company {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .experience-content .duration {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .experience-content p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            border: 2px solid #ff6b00;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: #ff6b00;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 107, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #ff6b00;
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        .modal-content h2 {
+            color: #ff6b00;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .modal-content h3 {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .modal-content ul {
+            color: #ccc;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .modal-tag {
+            display: inline-block;
+            background: rgba(255, 107, 0, 0.2);
+            color: #ff6b00;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Scroll Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .projects-grid,
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 30px;
+                margin: 20px;
+            }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 107, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 15px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #fff, #ff6b00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff6b00;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b00;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #ff6b00;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            padding: 60px 20px 30px;
+            margin-top: 100px;
+            border-top: 2px solid #ff6b00;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            color: #ff6b00;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #aaa;
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ff6b00;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 107, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff6b00;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #ff6b00;
+            color: #fff;
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 107, 0, 0.1);
+            color: #888;
+        }
+
+        /* Profile Image */
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid #ff6b00;
+            margin-bottom: 30px;
+            object-fit: cover;
+            box-shadow: 0 10px 40px rgba(255, 107, 0, 0.4);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Project Images */
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff6b00, #ff9500);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff6b00;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background: rgba(10, 10, 10, 0.98);
+                width: 100%;
+                padding: 40px;
+                gap: 20px;
+                transition: left 0.3s ease;
+                border-top: 1px solid rgba(255, 107, 0, 0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(8px, 8px);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>test</h1>
+    <!-- Header -->
+    <header id="header">
+        <nav>
+            <div class="logo">PORTFOLIO</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#achievements" class="nav-link">Achievements</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <img id="profileImage" class="profile-image" alt="Profile">
+            <h1 id="heroName"></h1>
+            <p class="subtitle" id="heroTitle"></p>
+            <p id="heroBio"></p>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Projects Section -->
+        <section class="section" id="projects">
+            <h2 class="section-title fade-in">Projects</h2>
+            <div class="projects-grid" id="projectsGrid"></div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section class="section" id="achievements">
+            <h2 class="section-title fade-in">Achievements</h2>
+            <div class="achievements-container" id="achievementsContainer"></div>
+        </section>
+
+        <!-- Education Section -->
+        <section class="section" id="education">
+            <h2 class="section-title fade-in">Education</h2>
+            <div class="education-grid" id="educationGrid"></div>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="section" id="experience">
+            <h2 class="section-title fade-in">Experience</h2>
+            <div class="experience-timeline" id="experienceTimeline"></div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Me</h3>
+                <p id="footerAbout"></p>
+                <div class="social-links" id="socialLinks"></div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#home">Home</a>
+                <a href="#projects">Projects</a>
+                <a href="#achievements">Achievements</a>
+                <a href="#education">Education</a>
+                <a href="#experience">Experience</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p id="footerEmail"></p>
+                <p id="footerPhone"></p>
+                <p id="footerLocation"></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="currentYear"></span> <span id="footerName"></span>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // JSON Data
+        const portfolioData = {
+            profile: {
+                name: "JOHN DOE",
+                title: "Creative Developer & Designer",
+                bio: "Passionate about creating beautiful and functional digital experiences. Specialized in full-stack development and UI/UX design.",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+                email: "john.doe@email.com",
+                phone: "+1 (555) 123-4567",
+                location: "San Francisco, CA",
+                social: {
+                    github: "https://github.com/johndoe",
+                    linkedin: "https://linkedin.com/in/johndoe",
+                    twitter: "https://twitter.com/johndoe",
+                    portfolio: "https://johndoe.dev"
+                }
+            },
+            projects: [
+                {
+                    id: 1,
+                    icon: "🚀",
+                    title: "E-Commerce Platform",
+                    overview: "Modern online shopping experience with advanced features",
+                    image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop",
+                    description: "A comprehensive e-commerce solution built with cutting-edge technologies, featuring real-time inventory management, secure payment processing, and personalized shopping experiences.",
+                    technologies: ["React", "Node.js", "MongoDB", "Stripe", "AWS"],
+                    features: [
+                        "Real-time inventory tracking",
+                        "Secure payment gateway integration",
+                        "Personalized product recommendations",
+                        "Advanced analytics dashboard",
+                        "Multi-vendor support"
+                    ],
+                    link: "https://github.com/example",
+                    duration: "6 months"
+                },
+                {
+                    id: 2,
+                    icon: "📱",
+                    title: "Mobile Fitness App",
+                    overview: "Track workouts and achieve fitness goals",
+                    image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=600&fit=crop",
+                    description: "An innovative fitness tracking application that helps users monitor their progress, set goals, and stay motivated with AI-powered workout recommendations.",
+                    technologies: ["React Native", "Firebase", "TensorFlow", "Redux"],
+                    features: [
+                        "AI-powered workout planning",
+                        "Progress tracking with charts",
+                        "Social fitness challenges",
+                        "Nutrition tracking",
+                        "Wearable device integration"
+                    ],
+                    link: "https://github.com/example",
+                    duration: "4 months"
+                },
+                {
+                    id: 3,
+                    icon: "🎨",
+                    title: "Design System",
+                    overview: "Comprehensive UI component library",
+                    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop",
+                    description: "A complete design system with reusable components, design tokens, and comprehensive documentation for maintaining consistency across products.",
+                    technologies: ["React", "TypeScript", "Storybook", "Figma", "CSS-in-JS"],
+                    features: [
+                        "50+ reusable components",
+                        "Comprehensive documentation",
+                        "Accessibility compliant",
+                        "Dark mode support",
+                        "Design token management"
+                    ],
+                    link: "https://github.com/example",
+                    duration: "8 months"
+                },
+                {
+                    id: 4,
+                    icon: "🤖",
+                    title: "AI Chatbot",
+                    overview: "Intelligent customer service automation",
+                    image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=600&fit=crop",
+                    description: "An advanced AI-powered chatbot using natural language processing to provide 24/7 customer support with high accuracy and customer satisfaction.",
+                    technologies: ["Python", "TensorFlow", "NLP", "FastAPI", "Docker"],
+                    features: [
+                        "Natural language understanding",
+                        "Multi-language support",
+                        "Sentiment analysis",
+                        "Context-aware responses",
+                        "Analytics dashboard"
+                    ],
+                    link: "https://github.com/example",
+                    duration: "5 months"
+                },
+                {
+                    id: 5,
+                    icon: "📊",
+                    title: "Analytics Dashboard",
+                    overview: "Real-time data visualization platform",
+                    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
+                    description: "A powerful analytics platform providing real-time insights through interactive visualizations and customizable reports for data-driven decision making.",
+                    technologies: ["Vue.js", "D3.js", "Python", "PostgreSQL", "Redis"],
+                    features: [
+                        "Real-time data updates",
+                        "Interactive visualizations",
+                        "Custom report builder",
+                        "Data export capabilities",
+                        "Role-based access control"
+                    ],
+                    link: "https://github.com/example",
+                    duration: "7 months"
+                },
+                {
+                    id: 6,
+                    icon: "🔒",
+                    title: "Security Platform",
+                    overview: "Enterprise-grade security solution",
+                    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=600&fit=crop",
+                    description: "A comprehensive security platform offering threat detection, vulnerability scanning, and compliance monitoring for enterprise applications.",
+                    technologies: ["Go", "Kubernetes", "Elasticsearch", "React", "GraphQL"],
+                    features: [
+                        "Real-time threat detection",
+                        "Automated vulnerability scanning",
+                        "Compliance reporting",
+                        "Incident response automation",
+                        "Security audit trails"
+                    ],
+                    link: "https://github.com/example",
+                    duration: "10 months"
+                }
+            ],
+            achievements: [
+                {
+                    id: 1,
+                    title: "Best Innovation Award",
+                    date: "2024",
+                    overview: "Recognized for innovative project development",
+                    description: "Received the Best Innovation Award at the National Technology Summit for developing an AI-powered solution that revolutionized customer service automation, resulting in 40% improvement in customer satisfaction and 60% reduction in response time.",
+                    impact: "Implemented by 50+ companies, serving over 1 million users",
+                    recognition: "Featured in TechCrunch and Forbes"
+                },
+                {
+                    id: 2,
+                    title: "Open Source Contributor",
+                    date: "2023-Present",
+                    overview: "Active contributor to major open source projects",
+                    description: "Made significant contributions to popular open-source projects including React, Vue.js, and TensorFlow. Authored 200+ commits, fixed critical bugs, and implemented major features used by millions of developers worldwide.",
+                    impact: "Contributions benefiting 5M+ developers globally",
+                    recognition: "Listed in GitHub's Top Contributors 2024"
+                },
+                {
+                    id: 3,
+                    title: "Hackathon Winner",
+                    date: "2023",
+                    overview: "First place in international coding competition",
+                    description: "Won first place at the Global Developer Hackathon by creating an innovative healthcare application that uses machine learning to predict disease patterns and provide early intervention recommendations.",
+                    impact: "$50,000 prize, project adopted by healthcare startup",
+                    recognition: "Featured in Wired Magazine"
+                }
+            ],
+            education: [
+                {
+                    id: 1,
+                    degree: "Master of Science",
+                    field: "Computer Science",
+                    institution: "Stanford University",
+                    year: "2020-2022",
+                    overview: "Specialized in Artificial Intelligence and Machine Learning",
+                    description: "Focused on artificial intelligence, machine learning, and data science with a thesis on 'Deep Learning Applications in Healthcare'. Achieved 3.9 GPA and received multiple academic excellence awards.",
+                    courses: [
+                        "Advanced Machine Learning",
+                        "Deep Learning",
+                        "Natural Language Processing",
+                        "Computer Vision",
+                        "Distributed Systems"
+                    ],
+                    achievements: [
+                        "Dean's List all semesters",
+                        "Research published in ACM Conference",
+                        "Teaching Assistant for AI course"
+                    ]
+                },
+                {
+                    id: 2,
+                    degree: "Bachelor of Technology",
+                    field: "Information Technology",
+                    institution: "MIT",
+                    year: "2016-2020",
+                    overview: "Graduated with honors in Information Technology",
+                    description: "Comprehensive education in software engineering, algorithms, and system design. Led multiple student projects and participated in various technical competitions.",
+                    courses: [
+                        "Data Structures & Algorithms",
+                        "Software Engineering",
+                        "Database Systems",
+                        "Web Technologies",
+                        "Mobile App Development"
+                    ],
+                    achievements: [
+                        "Graduated Summa Cum Laude (3.95 GPA)",
+                        "President of Computer Science Club",
+                        "Winner of University Hackathon 2019"
+                    ]
+                }
+            ],
+            experience: [
+                {
+                    id: 1,
+                    position: "Senior Full Stack Developer",
+                    company: "Tech Innovators Inc.",
+                    duration: "2022 - Present",
+                    overview: "Leading development of enterprise applications",
+                    description: "Leading a team of 8 developers in building scalable enterprise applications. Architected and implemented microservices-based solutions serving millions of users. Mentored junior developers and established best practices for the engineering team.",
+                    responsibilities: [
+                        "Lead architecture design for multiple products",
+                        "Manage team of 8 developers",
+                        "Code review and quality assurance",
+                        "Performance optimization and scaling",
+                        "Stakeholder communication and project planning"
+                    ],
+                    achievements: [
+                        "Reduced system latency by 60%",
+                        "Implemented CI/CD pipeline reducing deployment time by 80%",
+                        "Mentored 5 developers to senior positions",
+                        "Led migration to microservices architecture"
+                    ],
+                    technologies: ["React", "Node.js", "AWS", "Docker", "Kubernetes", "PostgreSQL"]
+                },
+                {
+                    id: 2,
+                    position: "Frontend Developer",
+                    company: "Digital Solutions Ltd.",
+                    duration: "2020 - 2022",
+                    overview: "Building modern web applications",
+                    description: "Developed responsive and performant web applications using modern frontend frameworks. Collaborated with designers to implement pixel-perfect UIs and worked closely with backend teams for seamless integration.",
+                    responsibilities: [
+                        "Develop responsive web applications",
+                        "Collaborate with UX/UI designers",
+                        "Optimize application performance",
+                        "Write comprehensive unit tests",
+                        "Participate in agile development"
+                    ],
+                    achievements: [
+                        "Improved page load time by 45%",
+                        "Implemented design system used across 10+ products",
+                        "Achieved 95% test coverage",
+                        "Received 'Developer of the Year' award 2021"
+                    ],
+                    technologies: ["Vue.js", "React", "TypeScript", "SASS", "Jest", "Git"]
+                },
+                {
+                    id: 3,
+                    position: "Junior Developer",
+                    company: "StartUp Ventures",
+                    duration: "2019 - 2020",
+                    overview: "Software development intern turned full-time",
+                    description: "Started as an intern and was promoted to junior developer. Contributed to various projects including mobile apps, web applications, and backend services. Gained hands-on experience with modern development practices.",
+                    responsibilities: [
+                        "Develop features for mobile and web apps",
+                        "Fix bugs and improve code quality",
+                        "Write technical documentation",
+                        "Participate in code reviews",
+                        "Learn and implement new technologies"
+                    ],
+                    achievements: [
+                        "Promoted from intern to full-time in 3 months",
+                        "Built key features used by 100K+ users",
+                        "Contributed to 5+ successful product launches",
+                        "Received 'Rising Star' award"
+                    ],
+                    technologies: ["JavaScript", "Python", "React Native", "Firebase", "MongoDB"]
+                }
+            ]
+        };
+
+        // Populate Hero Section
+        document.getElementById('profileImage').src = portfolioData.profile.image;
+        document.getElementById('heroName').textContent = portfolioData.profile.name;
+        document.getElementById('heroTitle').textContent = portfolioData.profile.title;
+        document.getElementById('heroBio').textContent = portfolioData.profile.bio;
+
+        // Populate Footer
+        document.getElementById('footerAbout').textContent = portfolioData.profile.bio;
+        document.getElementById('footerEmail').textContent = portfolioData.profile.email;
+        document.getElementById('footerPhone').textContent = portfolioData.profile.phone;
+        document.getElementById('footerLocation').textContent = portfolioData.profile.location;
+        document.getElementById('footerName').textContent = portfolioData.profile.name;
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Populate Social Links
+        const socialLinks = document.getElementById('socialLinks');
+        const socialIcons = {
+            github: '📁',
+            linkedin: '💼',
+            twitter: '🐦',
+            portfolio: '🌐'
+        };
+        
+        Object.entries(portfolioData.profile.social).forEach(([platform, url]) => {
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank';
+            link.textContent = socialIcons[platform] || '🔗';
+            link.title = platform.charAt(0).toUpperCase() + platform.slice(1);
+            socialLinks.appendChild(link);
+        });
+
+        // Populate Projects
+        const projectsGrid = document.getElementById('projectsGrid');
+        portfolioData.projects.forEach(project => {
+            const card = document.createElement('div');
+            card.className = 'project-card fade-in';
+            card.innerHTML = `
+                <img src="${project.image}" alt="${project.title}" class="project-image">
+                <div class="project-icon">${project.icon}</div>
+                <h3>${project.title}</h3>
+                <p>${project.overview}</p>
+            `;
+            card.onclick = () => showModal('project', project);
+            projectsGrid.appendChild(card);
+        });
+
+        // Populate Achievements
+        const achievementsContainer = document.getElementById('achievementsContainer');
+        portfolioData.achievements.forEach(achievement => {
+            const item = document.createElement('div');
+            item.className = 'achievement-item fade-in';
+            item.innerHTML = `
+                <h3>${achievement.title}</h3>
+                <div class="date">${achievement.date}</div>
+                <p>${achievement.overview}</p>
+            `;
+            item.onclick = () => showModal('achievement', achievement);
+            achievementsContainer.appendChild(item);
+        });
+
+        // Populate Education
+        const educationGrid = document.getElementById('educationGrid');
+        portfolioData.education.forEach(edu => {
+            const card = document.createElement('div');
+            card.className = 'education-card fade-in';
+            card.innerHTML = `
+                <h3>${edu.degree}</h3>
+                <div class="institution">${edu.institution}</div>
+                <div class="year">${edu.year}</div>
+            `;
+            card.onclick = () => showModal('education', edu);
+            educationGrid.appendChild(card);
+        });
+
+        // Populate Experience
+        const experienceTimeline = document.getElementById('experienceTimeline');
+        portfolioData.experience.forEach(exp => {
+            const item = document.createElement('div');
+            item.className = 'experience-item fade-in';
+            item.innerHTML = `
+                <div class="experience-dot"></div>
+                <div class="experience-content">
+                    <h3>${exp.position}</h3>
+                    <div class="company">${exp.company}</div>
+                    <div class="duration">${exp.duration}</div>
+                    <p>${exp.overview}</p>
+                </div>
+            `;
+            item.onclick = () => showModal('experience', exp);
+            experienceTimeline.appendChild(item);
+        });
+
+        // Modal Functions
+        function showModal(type, data) {
+            const modal = document.getElementById('modal');
+            const modalBody = document.getElementById('modalBody');
+            
+            let content = '';
+            
+            if (type === 'project') {
+                content = `
+                    <h2>${data.icon} ${data.title}</h2>
+                    <img src="${data.image}" alt="${data.title}" class="modal-image">
+                    <p>${data.description}</p>
+                    <h3>Technologies Used</h3>
+                    <div>
+                        ${data.technologies.map(tech => `<span class="modal-tag">${tech}</span>`).join('')}
+                    </div>
+                    <h3>Key Features</h3>
+                    <ul>
+                        ${data.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+                    <p><strong>Duration:</strong> ${data.duration}</p>
+                    <p><strong>Link:</strong> <a href="${data.link}" style="color: #ff6b00;">${data.link}</a></p>
+                `;
+            } else if (type === 'achievement') {
+                content = `
+                    <h2>${data.title}</h2>
+                    <p><strong>Date:</strong> ${data.date}</p>
+                    <p>${data.description}</p>
+                    <h3>Impact</h3>
+                    <p>${data.impact}</p>
+                    <h3>Recognition</h3>
+                    <p>${data.recognition}</p>
+                `;
+            } else if (type === 'education') {
+                content = `
+                    <h2>${data.degree} in ${data.field}</h2>
+                    <p><strong>${data.institution}</strong></p>
+                    <p><strong>Year:</strong> ${data.year}</p>
+                    <p>${data.description}</p>
+                    <h3>Key Courses</h3>
+                    <ul>
+                        ${data.courses.map(course => `<li>${course}</li>`).join('')}
+                    </ul>
+                    <h3>Achievements</h3>
+                    <ul>
+                        ${data.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+                    </ul>
+                `;
+            } else if (type === 'experience') {
+                content = `
+                    <h2>${data.position}</h2>
+                    <p><strong>${data.company}</strong></p>
+                    <p><strong>Duration:</strong> ${data.duration}</p>
+                    <p>${data.description}</p>
+                    <h3>Responsibilities</h3>
+                    <ul>
+                        ${data.responsibilities.map(resp => `<li>${resp}</li>`).join('')}
+                    </ul>
+                    <h3>Key Achievements</h3>
+                    <ul>
+                        ${data.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+                    </ul>
+                    <h3>Technologies</h3>
+                    <div>
+                        ${data.technologies.map(tech => `<span class="modal-tag">${tech}</span>`).join('')}
+                    </div>
+                `;
+            }
+            
+            modalBody.innerHTML = content;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        document.getElementById('modalClose').onclick = closeModal;
+        document.getElementById('modal').onclick = (e) => {
+            if (e.target.id === 'modal') closeModal();
+        };
+
+        // Navigation
+        const header = document.getElementById('header');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinksContainer = document.getElementById('navLinks');
+
+        // Smooth scroll
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                // Close mobile menu if open
+                navLinksContainer.classList.remove('active');
+                menuToggle.classList.remove('active');
+                
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Scroll to section
+                const offsetTop = targetSection.offsetTop - 80;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Mobile menu toggle
+        menuToggle.addEventListener('click', () => {
+            navLinksContainer.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+
+            // Update active nav link based on scroll position
+            let current = '';
+            const sections = document.querySelectorAll('section[id]');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                const sectionHeight = section.clientHeight;
+                
+                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
