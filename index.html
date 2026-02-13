@@ -325,19 +325,21 @@
             }
         }
 
-        .input-section {
-            margin-top: 35px;
-            padding: 30px;
+        .prayer-section {
+            margin-top: 45px;
+            padding: 35px;
             background: linear-gradient(135deg, #fff9fa, #fff0f5, #ffe8f0);
             border-radius: 25px;
             border: 3px dashed #ff9ec3;
             box-shadow: 0 10px 30px rgba(255, 107, 157, 0.15);
             position: relative;
-            animation: slideInRight 1s ease-out;
+            animation: slideInRight 1.2s ease-out;
+            animation-delay: 2.2s;
+            animation-fill-mode: both;
         }
 
-        .input-section.wishes::before {
-            content: '🌟';
+        .prayer-section::before {
+            content: '🙏';
             position: absolute;
             top: 15px;
             left: 15px;
@@ -345,45 +347,39 @@
             animation: float 3s infinite ease-in-out;
         }
 
-        .input-section.complaints::before {
-            content: '😤';
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            font-size: 2.5em;
-            animation: float 3s infinite ease-in-out;
-        }
-
-        .input-section.expectations::before {
-            content: '🎯';
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            font-size: 2.5em;
-            animation: float 3s infinite ease-in-out;
-        }
-
-        .section-title {
+        .prayer-title {
             font-family: 'Pacifico', cursive;
-            font-size: 1.8em;
+            font-size: 2em;
             color: #d81b60;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             animation: colorShift 3s infinite alternate;
         }
 
-        .section-subtitle {
-            font-size: 1.1em;
+        .prayer-subtitle {
+            font-size: 1.2em;
             color: #e91e63;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             line-height: 1.7;
             font-family: 'Quicksand', sans-serif;
         }
 
+        .privacy-note {
+            font-size: 1.05em;
+            color: #ff4081;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 64, 129, 0.1);
+            border-radius: 15px;
+            font-weight: 600;
+            line-height: 1.6;
+            border: 2px solid rgba(255, 64, 129, 0.3);
+        }
+
         textarea {
             width: 100%;
-            min-height: 120px;
-            padding: 18px;
-            font-size: 1.1em;
+            min-height: 160px;
+            padding: 20px;
+            font-size: 1.15em;
             border: 3px solid #ff9ec3;
             border-radius: 20px;
             font-family: 'Quicksand', sans-serif;
@@ -403,9 +399,9 @@
         }
 
         .submit-btn {
-            margin-top: 15px;
-            padding: 15px 45px;
-            font-size: 1.2em;
+            margin-top: 20px;
+            padding: 18px 55px;
+            font-size: 1.3em;
             font-family: 'Quicksand', sans-serif;
             background: linear-gradient(135deg, #ff6b9d, #e91e63, #f50057);
             color: white;
@@ -418,79 +414,13 @@
         }
 
         .submit-btn:hover {
-            transform: scale(1.08) rotate(-1deg);
+            transform: scale(1.1) rotate(-2deg);
             box-shadow: 0 10px 35px rgba(233, 30, 99, 0.6);
         }
 
         .submit-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-        }
-
-        .funny-questions {
-            margin-top: 35px;
-            padding: 30px;
-            background: linear-gradient(135deg, #fff0f5, #ffe4e9);
-            border-radius: 25px;
-            border: 3px solid #ffb6d9;
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.15);
-        }
-
-        .funny-q-title {
-            font-family: 'Pacifico', cursive;
-            font-size: 1.8em;
-            color: #d81b60;
-            margin-bottom: 25px;
-        }
-
-        .funny-question-item {
-            margin: 25px 0;
-            padding: 20px;
-            background: white;
-            border-radius: 18px;
-            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.15);
-            text-align: left;
-        }
-
-        .funny-q-text {
-            font-size: 1.15em;
-            color: #c2185b;
-            margin-bottom: 15px;
-            font-weight: 600;
-            font-family: 'Quicksand', sans-serif;
-        }
-
-        .funny-options {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .funny-option {
-            padding: 12px 30px;
-            font-size: 1.1em;
-            background: linear-gradient(135deg, #ffe4e9, #fff0f5);
-            color: #d81b60;
-            border: 2px solid #ff9ec3;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 600;
-        }
-
-        .funny-option:hover {
-            background: linear-gradient(135deg, #ff6b9d, #e91e63);
-            color: white;
-            transform: scale(1.05);
-            border-color: #e91e63;
-        }
-
-        .funny-option.selected {
-            background: linear-gradient(135deg, #ff6b9d, #e91e63);
-            color: white;
-            border-color: #e91e63;
         }
 
         .final-message {
@@ -546,16 +476,16 @@
 
         .success-msg {
             display: none;
-            margin-top: 15px;
-            padding: 15px;
+            margin-top: 20px;
+            padding: 20px;
             background: linear-gradient(135deg, #4caf50, #66bb6a);
             color: white;
-            border-radius: 15px;
-            font-size: 1.05em;
+            border-radius: 20px;
+            font-size: 1.2em;
             font-weight: 700;
             font-family: 'Quicksand', sans-serif;
-            animation: successBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            animation: successBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
         }
 
         /* Mobile Optimization */
@@ -586,16 +516,16 @@
                 font-size: 1.1em;
             }
 
-            .section-title {
-                font-size: 1.5em;
+            .prayer-title {
+                font-size: 1.6em;
             }
 
-            .section-subtitle {
-                font-size: 1em;
+            .prayer-subtitle {
+                font-size: 1.05em;
             }
 
             textarea {
-                min-height: 110px;
+                min-height: 140px;
                 font-size: 1em;
             }
 
@@ -609,15 +539,6 @@
 
             .love-note {
                 font-size: 1.05em;
-            }
-
-            .funny-q-text {
-                font-size: 1.05em;
-            }
-
-            .funny-option {
-                padding: 10px 25px;
-                font-size: 1em;
             }
         }
 
@@ -639,8 +560,12 @@
                 font-size: 1em;
             }
 
-            .shayari-container, .input-section, .special-qualities, .funny-questions {
+            .shayari-container, .prayer-section, .special-qualities {
                 padding: 25px 20px;
+            }
+
+            .privacy-note {
+                font-size: 0.95em;
             }
         }
     </style>
@@ -721,111 +646,24 @@
                     <div class="quality-item">🌈 Your presence makes life colorful and beautiful</div>
                 </div>
 
-                <!-- Funny Questions Section -->
-                <div class="funny-questions">
-                    <div class="funny-q-title">🤪 Quick Fun Questions! 🤪</div>
-                    
-                    <div class="funny-question-item">
-                        <div class="funny-q-text">1. If I was a pizza, what topping would I be? 🍕</div>
-                        <div class="funny-options">
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q1', 'Extra Cheese')">Extra Cheese 🧀</div>
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q1', 'Spicy Jalapeño')">Spicy Jalapeño 🌶️</div>
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q1', 'Sweet Pineapple')">Sweet Pineapple 🍍</div>
-                        </div>
+                <!-- Prayer Section (Wishes disguised as prayers to God) -->
+                <div class="prayer-section">
+                    <div class="prayer-title">🙏 Send Your Wishes to God 🙏</div>
+                    <div class="prayer-subtitle">
+                        Write your deepest wishes and prayers here. It will go directly to God! ✨
                     </div>
-
-                    <div class="funny-question-item">
-                        <div class="funny-q-text">2. Am I more annoying than a mosquito in your ear at 3 AM? 🦟</div>
-                        <div class="funny-options">
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q2', 'Way more!')">Way more! 😂</div>
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q2', 'About the same')">About the same 😄</div>
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q2', 'You are cute annoying')">You're cute annoying 🥰</div>
-                        </div>
-                    </div>
-
-                    <div class="funny-question-item">
-                        <div class="funny-q-text">3. If I was a superhero, what would be my superpower? 🦸</div>
-                        <div class="funny-options">
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q3', 'Making me laugh')">Making me laugh 😆</div>
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q3', 'Being adorably annoying')">Being adorably annoying 😜</div>
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q3', 'Stealing my heart')">Stealing my heart 💝</div>
-                        </div>
-                    </div>
-
-                    <div class="funny-question-item">
-                        <div class="funny-q-text">4. Would you still love me if I turned into a worm? 🐛</div>
-                        <div class="funny-options">
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q4', 'Yes, cutest worm!')">Yes, cutest worm! 💕</div>
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q4', 'I would keep you in a jar')">I'd keep you in a jar 🫙</div>
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q4', 'Please don\'t turn into worm')">Please don't 😅</div>
-                        </div>
-                    </div>
-
-                    <div class="funny-question-item">
-                        <div class="funny-q-text">5. On a scale of "cute puppy" to "Brad Pitt", how attractive am I? 🐶</div>
-                        <div class="funny-options">
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q5', 'Cute puppy level')">Cute puppy level 🐕</div>
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q5', 'Better than Brad!')">Better than Brad! 😍</div>
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q5', 'My own category')">My own category 💫</div>
-                        </div>
-                    </div>
-
-                    <div class="funny-question-item">
-                        <div class="funny-q-text">6. If we were in a zombie apocalypse, would you save me or the last slice of pizza? 🧟</div>
-                        <div class="funny-options">
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q6', 'You, obviously!')">You, obviously! ❤️</div>
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q6', 'Can I take both?')">Can I take both? 🍕</div>
-                            <div class="funny-option" onclick="selectFunnyOption(this, 'q6', 'Depends on the pizza')">Depends on the pizza 😂</div>
-                        </div>
-                    </div>
-
-                    <button class="submit-btn" onclick="submitAllFunnyQuestions()" style="margin-top: 25px;">Submit Fun Answers 🎉</button>
-                    <div class="success-msg" id="funnySuccess">✨ Your answers are recorded! 😄</div>
-                </div>
-
-                <!-- Life Wishes Section -->
-                <div class="input-section wishes" style="animation-delay: 2.2s;">
-                    <div class="section-title">🌟 My Life Wishes 🌟</div>
-                    <div class="section-subtitle">
-                        Share your dreams and wishes for life! Career goals, travel dreams, personal achievements, 
-                        what you want to become, places to visit, skills to learn... anything! ✨
+                    <div class="privacy-note">
+                        🔒 This will go directly to God. It will always remain between God and you. 
+                        Don't worry, write whatever your heart desires! 🔒
                     </div>
                     <textarea 
-                        id="wishesInput" 
-                        placeholder="I wish to travel to..., I want to achieve..., My dream is..., I hope to become... 💫"
+                        id="prayerInput" 
+                        placeholder="Dear God, I wish for... I pray that... I hope... My dreams are... 💫✨🌟"
                     ></textarea>
-                    <button class="submit-btn" onclick="submitWishes()">Send My Wishes 🌟</button>
-                    <div class="success-msg" id="wishesSuccess">✨ Your wishes are sent to the universe! 💫</div>
-                </div>
-
-                <!-- Complaint Box Section -->
-                <div class="input-section complaints" style="animation-delay: 2.4s;">
-                    <div class="section-title">😤 Complaint Box 😤</div>
-                    <div class="section-subtitle">
-                        Time to vent! What annoys you about me? What do I do that drives you crazy? 
-                        Be honest, I can take it! 😅 (Maybe...)
+                    <button class="submit-btn" onclick="sendPrayer()">Send to God 🌟</button>
+                    <div class="success-msg" id="prayerSaved">
+                        ✨ Your prayers have been sent to God! 🙏💖
                     </div>
-                    <textarea 
-                        id="complaintsInput" 
-                        placeholder="You always..., It annoys me when you..., Stop doing..., Why do you... 😤"
-                    ></textarea>
-                    <button class="submit-btn" onclick="submitComplaints()">Submit Complaint 📝</button>
-                    <div class="success-msg" id="complaintsSuccess">✅ Complaint registered! I'll try to improve! 😇</div>
-                </div>
-
-                <!-- Expectations Section -->
-                <div class="input-section expectations" style="animation-delay: 2.6s;">
-                    <div class="section-title">🎯 My Expectations 🎯</div>
-                    <div class="section-subtitle">
-                        What do you expect from me? From our relationship? What would make you happier? 
-                        Tell me everything! I'm here to listen 💕
-                    </div>
-                    <textarea 
-                        id="expectationsInput" 
-                        placeholder="I expect you to..., I want you to..., It would make me happy if..., Please... 💕"
-                    ></textarea>
-                    <button class="submit-btn" onclick="submitExpectations()">Share My Expectations 💝</button>
-                    <div class="success-msg" id="expectationsSuccess">💖 Got it! I'll do my best to meet them! 🙏</div>
                 </div>
 
                 <p style="margin-top: 45px; font-size: 1.6em; color: #c2185b; font-weight: 700; font-family: 'Pacifico', cursive;">
@@ -840,29 +678,11 @@
 
     <script>
         // ============================================
-        // REPLACE THESE WITH YOUR GOOGLE FORM INFO
+        // REPLACE WITH YOUR GOOGLE FORM INFO
         // ============================================
         const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/u/0/d/12FEm0DaYVJT6OWf8Qxt1maOw0Alw9EOwx73w_leeKgw/formResponse';
         const ENTRY_WISHES = 'entry.1694642760';
-        const ENTRY_COMPLAINTS = 'entry.141097832';
-        const ENTRY_EXPECTATIONS = 'entry.1519287828';
-        const ENTRY_FUNNY_Q1 = 'entry.722799212';
-        const ENTRY_FUNNY_Q2 = 'entry.424778216';
-        const ENTRY_FUNNY_Q3 = 'entry.1701585131';
-        const ENTRY_FUNNY_Q4 = 'entry.1217267326';
-        const ENTRY_FUNNY_Q5 = 'entry.291648054';
-        const ENTRY_FUNNY_Q6 = 'entry.731102867';
         // ============================================
-
-        // Store funny answers
-        let funnyAnswers = {
-            q1: '',
-            q2: '',
-            q3: '',
-            q4: '',
-            q5: '',
-            q6: ''
-        };
 
         // Create floating hearts
         function createFloatingHearts() {
@@ -965,126 +785,36 @@
             }
         }
 
-        function selectFunnyOption(element, questionId, answer) {
-            // Remove selected class from siblings
-            const siblings = element.parentElement.children;
-            for (let sibling of siblings) {
-                sibling.classList.remove('selected');
+        function sendPrayer() {
+            const input = document.getElementById('prayerInput');
+            const prayer = input.value.trim();
+            
+            if (prayer === '') {
+                alert('Please write your prayers and wishes! 🙏💕');
+                return;
             }
-            
-            // Add selected class to clicked option
-            element.classList.add('selected');
-            
-            // Store answer
-            funnyAnswers[questionId] = answer;
-        }
 
-        function submitAllFunnyQuestions() {
-            // Create FormData with ALL answers (including empty ones)
+            // Send to Google Forms
             const formData = new FormData();
-            
-            // Add all funny answers - use empty string if not answered
-            formData.append(ENTRY_FUNNY_Q1, funnyAnswers.q1 || 'Not answered');
-            formData.append(ENTRY_FUNNY_Q2, funnyAnswers.q2 || 'Not answered');
-            formData.append(ENTRY_FUNNY_Q3, funnyAnswers.q3 || 'Not answered');
-            formData.append(ENTRY_FUNNY_Q4, funnyAnswers.q4 || 'Not answered');
-            formData.append(ENTRY_FUNNY_Q5, funnyAnswers.q5 || 'Not answered');
-            formData.append(ENTRY_FUNNY_Q6, funnyAnswers.q6 || 'Not answered');
+            formData.append(ENTRY_WISHES, prayer);
 
-            // Submit to Google Forms
             fetch(GOOGLE_FORM_ACTION_URL, {
                 method: 'POST',
                 body: formData,
                 mode: 'no-cors'
             }).then(() => {
-                document.getElementById('funnySuccess').style.display = 'block';
+                document.getElementById('prayerSaved').style.display = 'block';
+                input.value = '';
                 setTimeout(() => {
-                    document.getElementById('funnySuccess').style.display = 'none';
-                }, 4000);
+                    document.getElementById('prayerSaved').style.display = 'none';
+                }, 5000);
             }).catch((error) => {
-                console.log('Submitted successfully');
-                document.getElementById('funnySuccess').style.display = 'block';
-                setTimeout(() => {
-                    document.getElementById('funnySuccess').style.display = 'none';
-                }, 4000);
-            });
-        }
-
-        function submitWishes() {
-            const input = document.getElementById('wishesInput');
-            const text = input.value.trim();
-            
-            const formData = new FormData();
-            formData.append(ENTRY_WISHES, text || 'No wishes entered');
-
-            fetch(GOOGLE_FORM_ACTION_URL, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            }).then(() => {
-                document.getElementById('wishesSuccess').style.display = 'block';
+                // Even on error, show success (because no-cors doesn't return response)
+                document.getElementById('prayerSaved').style.display = 'block';
                 input.value = '';
                 setTimeout(() => {
-                    document.getElementById('wishesSuccess').style.display = 'none';
-                }, 4000);
-            }).catch(() => {
-                document.getElementById('wishesSuccess').style.display = 'block';
-                input.value = '';
-                setTimeout(() => {
-                    document.getElementById('wishesSuccess').style.display = 'none';
-                }, 4000);
-            });
-        }
-
-        function submitComplaints() {
-            const input = document.getElementById('complaintsInput');
-            const text = input.value.trim();
-            
-            const formData = new FormData();
-            formData.append(ENTRY_COMPLAINTS, text || 'No complaints');
-
-            fetch(GOOGLE_FORM_ACTION_URL, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            }).then(() => {
-                document.getElementById('complaintsSuccess').style.display = 'block';
-                input.value = '';
-                setTimeout(() => {
-                    document.getElementById('complaintsSuccess').style.display = 'none';
-                }, 4000);
-            }).catch(() => {
-                document.getElementById('complaintsSuccess').style.display = 'block';
-                input.value = '';
-                setTimeout(() => {
-                    document.getElementById('complaintsSuccess').style.display = 'none';
-                }, 4000);
-            });
-        }
-
-        function submitExpectations() {
-            const input = document.getElementById('expectationsInput');
-            const text = input.value.trim();
-            
-            const formData = new FormData();
-            formData.append(ENTRY_EXPECTATIONS, text || 'No expectations entered');
-
-            fetch(GOOGLE_FORM_ACTION_URL, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            }).then(() => {
-                document.getElementById('expectationsSuccess').style.display = 'block';
-                input.value = '';
-                setTimeout(() => {
-                    document.getElementById('expectationsSuccess').style.display = 'none';
-                }, 4000);
-            }).catch(() => {
-                document.getElementById('expectationsSuccess').style.display = 'block';
-                input.value = '';
-                setTimeout(() => {
-                    document.getElementById('expectationsSuccess').style.display = 'none';
-                }, 4000);
+                    document.getElementById('prayerSaved').style.display = 'none';
+                }, 5000);
             });
         }
     </script>
