@@ -778,6 +778,9 @@
                             <div class="funny-option" onclick="selectFunnyOption(this, 'q6', 'Depends on the pizza')">Depends on the pizza 😂</div>
                         </div>
                     </div>
+
+                    <button class="submit-btn" onclick="submitAllFunnyQuestions()" style="margin-top: 25px;">Submit Fun Answers 🎉</button>
+                    <div class="success-msg" id="funnySuccess">✨ Your answers are recorded! 😄</div>
                 </div>
 
                 <!-- Life Wishes Section -->
@@ -836,19 +839,30 @@
     </div>
 
     <script>
-      const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/u/0/d/12FEm0DaYVJT6OWf8Qxt1maOw0Alw9EOwx73w_leeKgw/formResponse';
-const ENTRY_WISHES = 'entry.1694642760';
-const ENTRY_COMPLAINTS = 'entry.141097832';
-const ENTRY_EXPECTATIONS = 'entry.1519287828';
-const ENTRY_FUNNY_Q1 = 'entry.722799212';
-const ENTRY_FUNNY_Q2 = 'entry.424778216';
-const ENTRY_FUNNY_Q3 = 'entry.1701585131';
-const ENTRY_FUNNY_Q4 = 'entry.1217267326';
-const ENTRY_FUNNY_Q5 = 'entry.291648054';
-const ENTRY_FUNNY_Q6 = 'entry.731102867';
+        // ============================================
+        // REPLACE THESE WITH YOUR GOOGLE FORM INFO
+        // ============================================
+        const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/u/0/d/12FEm0DaYVJT6OWf8Qxt1maOw0Alw9EOwx73w_leeKgw/formResponse';
+        const ENTRY_WISHES = 'entry.1694642760';
+        const ENTRY_COMPLAINTS = 'entry.141097832';
+        const ENTRY_EXPECTATIONS = 'entry.1519287828';
+        const ENTRY_FUNNY_Q1 = 'entry.722799212';
+        const ENTRY_FUNNY_Q2 = 'entry.424778216';
+        const ENTRY_FUNNY_Q3 = 'entry.1701585131';
+        const ENTRY_FUNNY_Q4 = 'entry.1217267326';
+        const ENTRY_FUNNY_Q5 = 'entry.291648054';
+        const ENTRY_FUNNY_Q6 = 'entry.731102867';
+        // ============================================
 
         // Store funny answers
-        let funnyAnswers = {};
+        let funnyAnswers = {
+            q1: '',
+            q2: '',
+            q3: '',
+            q4: '',
+            q5: '',
+            q6: ''
+        };
 
         // Create floating hearts
         function createFloatingHearts() {
@@ -963,48 +977,57 @@ const ENTRY_FUNNY_Q6 = 'entry.731102867';
             
             // Store answer
             funnyAnswers[questionId] = answer;
-            
-            // Submit to Google Form
-            submitFunnyAnswer(questionId, answer);
         }
 
-        function submitFunnyAnswer(questionId, answer) {
-            const entryMap = {
-                'q1': ENTRY_FUNNY_Q1,
-                'q2': ENTRY_FUNNY_Q2,
-                'q3': ENTRY_FUNNY_Q3,
-                'q4': ENTRY_FUNNY_Q4,
-                'q5': ENTRY_FUNNY_Q5,
-                'q6': ENTRY_FUNNY_Q6
-            };
-
+        function submitAllFunnyQuestions() {
+            // Create FormData with ALL answers (including empty ones)
             const formData = new FormData();
-            formData.append(entryMap[questionId], answer);
+            
+            // Add all funny answers - use empty string if not answered
+            formData.append(ENTRY_FUNNY_Q1, funnyAnswers.q1 || 'Not answered');
+            formData.append(ENTRY_FUNNY_Q2, funnyAnswers.q2 || 'Not answered');
+            formData.append(ENTRY_FUNNY_Q3, funnyAnswers.q3 || 'Not answered');
+            formData.append(ENTRY_FUNNY_Q4, funnyAnswers.q4 || 'Not answered');
+            formData.append(ENTRY_FUNNY_Q5, funnyAnswers.q5 || 'Not answered');
+            formData.append(ENTRY_FUNNY_Q6, funnyAnswers.q6 || 'Not answered');
 
+            // Submit to Google Forms
             fetch(GOOGLE_FORM_ACTION_URL, {
                 method: 'POST',
                 body: formData,
                 mode: 'no-cors'
-            }).catch(err => console.log('Submitted funny answer'));
+            }).then(() => {
+                document.getElementById('funnySuccess').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('funnySuccess').style.display = 'none';
+                }, 4000);
+            }).catch((error) => {
+                console.log('Submitted successfully');
+                document.getElementById('funnySuccess').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('funnySuccess').style.display = 'none';
+                }, 4000);
+            });
         }
 
         function submitWishes() {
             const input = document.getElementById('wishesInput');
             const text = input.value.trim();
             
-            if (!text) {
-                alert('Please share your wishes! 🌟');
-                return;
-            }
-
             const formData = new FormData();
-            formData.append(ENTRY_WISHES, text);
+            formData.append(ENTRY_WISHES, text || 'No wishes entered');
 
             fetch(GOOGLE_FORM_ACTION_URL, {
                 method: 'POST',
                 body: formData,
                 mode: 'no-cors'
             }).then(() => {
+                document.getElementById('wishesSuccess').style.display = 'block';
+                input.value = '';
+                setTimeout(() => {
+                    document.getElementById('wishesSuccess').style.display = 'none';
+                }, 4000);
+            }).catch(() => {
                 document.getElementById('wishesSuccess').style.display = 'block';
                 input.value = '';
                 setTimeout(() => {
@@ -1017,19 +1040,20 @@ const ENTRY_FUNNY_Q6 = 'entry.731102867';
             const input = document.getElementById('complaintsInput');
             const text = input.value.trim();
             
-            if (!text) {
-                alert('Come on, I know you have some complaints! 😅');
-                return;
-            }
-
             const formData = new FormData();
-            formData.append(ENTRY_COMPLAINTS, text);
+            formData.append(ENTRY_COMPLAINTS, text || 'No complaints');
 
             fetch(GOOGLE_FORM_ACTION_URL, {
                 method: 'POST',
                 body: formData,
                 mode: 'no-cors'
             }).then(() => {
+                document.getElementById('complaintsSuccess').style.display = 'block';
+                input.value = '';
+                setTimeout(() => {
+                    document.getElementById('complaintsSuccess').style.display = 'none';
+                }, 4000);
+            }).catch(() => {
                 document.getElementById('complaintsSuccess').style.display = 'block';
                 input.value = '';
                 setTimeout(() => {
@@ -1042,19 +1066,20 @@ const ENTRY_FUNNY_Q6 = 'entry.731102867';
             const input = document.getElementById('expectationsInput');
             const text = input.value.trim();
             
-            if (!text) {
-                alert('Please share your expectations! 💕');
-                return;
-            }
-
             const formData = new FormData();
-            formData.append(ENTRY_EXPECTATIONS, text);
+            formData.append(ENTRY_EXPECTATIONS, text || 'No expectations entered');
 
             fetch(GOOGLE_FORM_ACTION_URL, {
                 method: 'POST',
                 body: formData,
                 mode: 'no-cors'
             }).then(() => {
+                document.getElementById('expectationsSuccess').style.display = 'block';
+                input.value = '';
+                setTimeout(() => {
+                    document.getElementById('expectationsSuccess').style.display = 'none';
+                }, 4000);
+            }).catch(() => {
                 document.getElementById('expectationsSuccess').style.display = 'block';
                 input.value = '';
                 setTimeout(() => {
