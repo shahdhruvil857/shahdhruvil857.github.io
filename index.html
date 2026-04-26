@@ -611,9 +611,14 @@ function render() {
   // About
   document.getElementById('ab-title').textContent = DATA.about.title;
   document.getElementById('ab-body').innerHTML = DATA.about.body;
-  document.getElementById('ab-stats').innerHTML = DATA.about.stats
-    .map(s=>`<div><div class="stat-n">${s.num}</div><div class="stat-l">${s.label}</div></div>`).join('');
-
+document.getElementById('ab-stats').innerHTML = DATA.about.stats
+  ? DATA.about.stats.map(s=>`
+      <div>
+        <div class="stat-n">${s.num}</div>
+        <div class="stat-l">${s.label}</div>
+      </div>
+    `).join('')
+  : '';
   // Skills slider
   const track = document.getElementById('sl-track');
   track.innerHTML = DATA.skills.map(sk=>`
