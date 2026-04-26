@@ -18,6 +18,63 @@ body{background:var(--bg);font-family:'DM Mono',monospace;color:var(--text);over
 
 #bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
 
+/* ── ROCKET BACKGROUND ── */
+.rocket-bg {
+  position: fixed;
+  right: -40px;
+  bottom: -60px;
+  width: min(520px, 55vw);
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.13;
+  animation: rocketFloat 9s ease-in-out infinite;
+  filter: drop-shadow(0 0 40px rgba(91,143,255,0.35)) drop-shadow(0 0 80px rgba(91,143,255,0.15));
+  transform-origin: center bottom;
+}
+@keyframes rocketFloat {
+  0%   { transform: translateY(0px) rotate(-2deg); }
+  30%  { transform: translateY(-18px) rotate(-1deg); }
+  60%  { transform: translateY(-8px) rotate(-3deg); }
+  100% { transform: translateY(0px) rotate(-2deg); }
+}
+.rocket-flame-outer {
+  animation: flameOuter 0.12s ease-in-out infinite alternate;
+  transform-origin: center top;
+}
+.rocket-flame-inner {
+  animation: flameInner 0.08s ease-in-out infinite alternate;
+  transform-origin: center top;
+}
+.rocket-flame-core {
+  animation: flameCore 0.06s ease-in-out infinite alternate;
+  transform-origin: center top;
+}
+@keyframes flameOuter {
+  0%   { transform: scaleX(1) scaleY(1); opacity: 0.7; }
+  100% { transform: scaleX(1.12) scaleY(1.08); opacity: 1; }
+}
+@keyframes flameInner {
+  0%   { transform: scaleX(0.95) scaleY(0.97); }
+  100% { transform: scaleX(1.08) scaleY(1.06); }
+}
+@keyframes flameCore {
+  0%   { transform: scaleY(0.93); }
+  100% { transform: scaleY(1.07); }
+}
+.exhaust-particle {
+  animation: exhaustDrift 1.8s ease-out infinite;
+  transform-origin: center top;
+}
+.exhaust-particle:nth-child(2) { animation-delay: 0.3s; animation-duration: 2.1s; }
+.exhaust-particle:nth-child(3) { animation-delay: 0.6s; animation-duration: 1.5s; }
+.exhaust-particle:nth-child(4) { animation-delay: 0.9s; animation-duration: 2.4s; }
+.exhaust-particle:nth-child(5) { animation-delay: 1.2s; animation-duration: 1.9s; }
+@keyframes exhaustDrift {
+  0%   { transform: translateY(0) scale(1); opacity: 0.5; }
+  100% { transform: translateY(60px) scale(0.2); opacity: 0; }
+}
+
 .layout{display:grid;grid-template-columns:210px 1fr;min-height:100vh;position:relative;z-index:10;}
 
 .sidebar{
@@ -230,37 +287,348 @@ section{
 .cc-label{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
 .cc-val{font-size:.74rem;color:var(--text);word-break:break-all;}
 
-/* ── RESPONSIVE ── */
-@media(max-width:960px){
+/* ── RESPONSIVE — MEDIUM (768px – 960px) ── */
+@media(min-width:600px) and (max-width:960px){
   .layout{grid-template-columns:1fr;}
-  .sidebar{position:fixed;top:0;left:-240px;width:220px;height:100vh;z-index:150;transition:left .3s cubic-bezier(.22,1,.36,1);background:rgba(7,8,15,.97);}
+  .sidebar{
+    position:fixed;top:0;left:-240px;width:220px;height:100vh;
+    z-index:150;transition:left .3s cubic-bezier(.22,1,.36,1);
+    background:rgba(7,8,15,.97);
+  }
   .sidebar.mobile-open{left:0;}
   .hamburger{display:flex;}
-  section{padding:80px 40px;}
-  .hero-inner{grid-template-columns:1fr;gap:40px;text-align:center;}
+
+  section{
+    padding:80px 52px;
+    align-items:center;
+    text-align:center;
+  }
+  section .s-label{ text-align:center; }
+  section .s-title{ text-align:center; }
+
+  #hero{padding:80px 52px;}
+  .hero-inner{
+    grid-template-columns:1fr;
+    gap:44px;
+    text-align:center;
+    justify-items:center;
+    max-width:520px;
+    margin:0 auto;
+  }
   .hero-text{align-items:center;}
   .hero-desc{text-align:center;max-width:100%;}
   .hero-btns{justify-content:center;}
-  .profile-card{max-width:280px;margin:0 auto;}
-  .proj-grid{grid-template-columns:repeat(2,1fr);}
-  .contact-cards{grid-template-columns:repeat(2,1fr);max-width:440px;}
+  .profile-card{max-width:300px;margin:0 auto;}
+
+  #about{align-items:center;text-align:center;}
+  .about-body{text-align:center;margin-left:auto;margin-right:auto;}
+  .stats{justify-content:center;gap:40px;}
+
+  #skills{align-items:center;}
+  .skills-slider-wrap{max-width:560px;}
+
+  #projects{align-items:stretch;}
+  .proj-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    max-width:700px;
+    width:100%;
+    margin:0 auto;
+  }
+
+  #contact{align-items:center;}
+  .contact-cards{
+    grid-template-columns:repeat(3,1fr);
+    max-width:560px;
+    margin:0 auto;
+  }
+
+  .rocket-bg{
+    width: min(380px, 45vw);
+    right: -20px;
+    bottom: -40px;
+    opacity: 0.1;
+  }
 }
+
+/* ── RESPONSIVE — MOBILE (<600px) ── */
 @media(max-width:600px){
-  section{padding:72px 24px;}
+  .layout{grid-template-columns:1fr;}
+  .sidebar{
+    position:fixed;top:0;left:-240px;width:220px;height:100vh;
+    z-index:150;transition:left .3s cubic-bezier(.22,1,.36,1);
+    background:rgba(7,8,15,.97);
+  }
+  .sidebar.mobile-open{left:0;}
+  .hamburger{display:flex;}
+
+  section{
+    padding:72px 24px;
+    align-items:center;
+    text-align:center;
+  }
+  section .s-label{ text-align:center; }
+  section .s-title{ text-align:center; font-size:clamp(1.4rem,5vw,1.9rem); }
+
+  #hero{padding:72px 24px;}
+  .hero-inner{
+    grid-template-columns:1fr;
+    gap:36px;
+    text-align:center;
+    justify-items:center;
+  }
+  .hero-text{align-items:center;}
   .hero-name{font-size:clamp(2rem,8vw,2.8rem);}
-  .s-title{font-size:clamp(1.4rem,5vw,1.9rem);}
+  .hero-desc{text-align:center;max-width:100%;}
+  .hero-btns{justify-content:center;}
+  .profile-card{max-width:280px;margin:0 auto;}
+
+  #about{align-items:center;text-align:center;}
+  .about-body{text-align:center;margin-left:auto;margin-right:auto;}
+  .stats{justify-content:center;gap:24px;}
+
   .proj-grid{grid-template-columns:1fr;}
   .contact-cards{grid-template-columns:1fr;max-width:340px;}
-  .stats{gap:24px;}
+
   .skills-slider-wrap{max-width:100%;}
   .skill-slide{flex:0 0 100px;min-width:100px;}
+
   .popup-box{padding:28px 22px;}
+
+  .rocket-bg{
+    width: min(260px, 70vw);
+    right: -10px;
+    bottom: -20px;
+    opacity: 0.07;
+  }
+}
+
+/* ── LEGACY LARGE MOBILE fallback ── */
+@media(max-width:960px) and (min-width:601px){
+  /* already handled above */
 }
 </style>
 </head>
 <body>
 
 <canvas id="bg"></canvas>
+
+<!-- Realistic Rocket SVG Background -->
+<svg class="rocket-bg" viewBox="0 0 220 680" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <defs>
+    <!-- Body gradient: metallic silver/blue -->
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#1a2a5e"/>
+      <stop offset="18%"  stop-color="#3a5ab8"/>
+      <stop offset="42%"  stop-color="#d0d8f5"/>
+      <stop offset="58%"  stop-color="#e8eeff"/>
+      <stop offset="78%"  stop-color="#4a6ec8"/>
+      <stop offset="100%" stop-color="#0f1830"/>
+    </linearGradient>
+    <!-- Nose cone gradient -->
+    <linearGradient id="noseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#1e3480"/>
+      <stop offset="30%"  stop-color="#5b8fff"/>
+      <stop offset="55%"  stop-color="#dce8ff"/>
+      <stop offset="80%"  stop-color="#3a5ab8"/>
+      <stop offset="100%" stop-color="#0d1a44"/>
+    </linearGradient>
+    <!-- Engine nozzle gradient -->
+    <linearGradient id="nozzleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#0a0f20"/>
+      <stop offset="25%"  stop-color="#2a3a70"/>
+      <stop offset="50%"  stop-color="#8090c0"/>
+      <stop offset="75%"  stop-color="#2a3a70"/>
+      <stop offset="100%" stop-color="#0a0f20"/>
+    </linearGradient>
+    <!-- Flame outer -->
+    <linearGradient id="flameOuterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#5b8fff" stop-opacity="0.95"/>
+      <stop offset="35%"  stop-color="#a78bfa" stop-opacity="0.85"/>
+      <stop offset="70%"  stop-color="#ff7a30" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ff4020" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Flame inner -->
+    <linearGradient id="flameInnerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="30%"  stop-color="#b8d0ff" stop-opacity="0.95"/>
+      <stop offset="65%"  stop-color="#ffcc80" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#ff6000" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Flame core -->
+    <linearGradient id="flameCoreGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="50%"  stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Fin gradient -->
+    <linearGradient id="finGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#0d1a44"/>
+      <stop offset="40%"  stop-color="#2a4490"/>
+      <stop offset="100%" stop-color="#5b8fff"/>
+    </linearGradient>
+    <linearGradient id="finGradR" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#5b8fff"/>
+      <stop offset="60%"  stop-color="#2a4490"/>
+      <stop offset="100%" stop-color="#0d1a44"/>
+    </linearGradient>
+    <filter id="glowBlue" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="flameSoft" x="-80%" y="-30%" width="260%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Window gradient -->
+    <radialGradient id="windowGrad" cx="40%" cy="35%" r="55%">
+      <stop offset="0%"   stop-color="#b8d4ff"/>
+      <stop offset="50%"  stop-color="#4a80f0"/>
+      <stop offset="100%" stop-color="#0a1840"/>
+    </radialGradient>
+    <!-- Exhaust cloud gradient -->
+    <radialGradient id="exhaustGrad" cx="50%" cy="20%" r="60%">
+      <stop offset="0%"   stop-color="#8090ff" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#3050c0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- ═══ EXHAUST CLOUD PARTICLES ═══ -->
+  <g opacity="0.6">
+    <ellipse class="exhaust-particle" cx="110" cy="545" rx="22" ry="10" fill="url(#exhaustGrad)"/>
+    <ellipse class="exhaust-particle" cx="98"  cy="568" rx="16" ry="7"  fill="url(#exhaustGrad)"/>
+    <ellipse class="exhaust-particle" cx="122" cy="572" rx="14" ry="6"  fill="url(#exhaustGrad)"/>
+    <ellipse class="exhaust-particle" cx="105" cy="590" rx="10" ry="5"  fill="url(#exhaustGrad)"/>
+    <ellipse class="exhaust-particle" cx="115" cy="600" rx="8"  ry="4"  fill="url(#exhaustGrad)"/>
+  </g>
+
+  <!-- ═══ MAIN ROCKET FLAMES ═══ -->
+  <!-- Outer halo glow -->
+  <g filter="url(#flameSoft)">
+    <g class="rocket-flame-outer">
+      <path d="M82,530 Q72,562 78,590 Q95,628 110,640 Q125,628 142,590 Q148,562 138,530 Z"
+            fill="url(#flameOuterGrad)" opacity="0.7"/>
+    </g>
+  </g>
+  <!-- Mid flame -->
+  <g class="rocket-flame-inner">
+    <path d="M89,530 Q82,558 87,582 Q100,612 110,622 Q120,612 133,582 Q138,558 131,530 Z"
+          fill="url(#flameInnerGrad)" opacity="0.88"/>
+  </g>
+  <!-- Core bright flame -->
+  <g class="rocket-flame-core">
+    <path d="M99,530 Q96,552 99,568 Q105,588 110,596 Q115,588 121,568 Q124,552 121,530 Z"
+          fill="url(#flameCoreGrad)" opacity="1"/>
+  </g>
+  <!-- Bright tip -->
+  <ellipse cx="110" cy="531" rx="9" ry="5" fill="white" opacity="0.9"/>
+
+  <!-- ═══ GRID FINS (bottom stabilisers) ═══ -->
+  <!-- Left fin -->
+  <g filter="url(#glowBlue)">
+    <path d="M68,470 L50,500 L50,530 L72,520 L76,490 Z" fill="url(#finGrad)" opacity="0.9"/>
+    <!-- fin grid lines -->
+    <line x1="54" y1="503" x2="72" y2="496" stroke="#5b8fff" stroke-width="0.8" opacity="0.5"/>
+    <line x1="52" y1="512" x2="72" y2="505" stroke="#5b8fff" stroke-width="0.8" opacity="0.5"/>
+    <line x1="51" y1="521" x2="72" y2="515" stroke="#5b8fff" stroke-width="0.8" opacity="0.5"/>
+    <line x1="59" y1="502" x2="55" y2="527" stroke="#5b8fff" stroke-width="0.8" opacity="0.4"/>
+    <line x1="65" y1="499" x2="61" y2="524" stroke="#5b8fff" stroke-width="0.8" opacity="0.4"/>
+  </g>
+  <!-- Right fin -->
+  <g filter="url(#glowBlue)">
+    <path d="M152,470 L170,500 L170,530 L148,520 L144,490 Z" fill="url(#finGradR)" opacity="0.9"/>
+    <!-- fin grid lines -->
+    <line x1="166" y1="503" x2="148" y2="496" stroke="#5b8fff" stroke-width="0.8" opacity="0.5"/>
+    <line x1="168" y1="512" x2="148" y2="505" stroke="#5b8fff" stroke-width="0.8" opacity="0.5"/>
+    <line x1="169" y1="521" x2="148" y2="515" stroke="#5b8fff" stroke-width="0.8" opacity="0.5"/>
+    <line x1="161" y1="502" x2="165" y2="527" stroke="#5b8fff" stroke-width="0.8" opacity="0.4"/>
+    <line x1="155" y1="499" x2="159" y2="524" stroke="#5b8fff" stroke-width="0.8" opacity="0.4"/>
+  </g>
+
+  <!-- ═══ INTERSTAGE RING ═══ -->
+  <rect x="68" y="358" width="84" height="18" rx="2"
+        fill="#1a2a6e" stroke="#5b8fff" stroke-width="0.8" opacity="0.9"/>
+  <!-- interstage detail lines -->
+  <line x1="68" y1="364" x2="152" y2="364" stroke="#5b8fff" stroke-width="0.5" opacity="0.5"/>
+  <line x1="68" y1="370" x2="152" y2="370" stroke="#5b8fff" stroke-width="0.5" opacity="0.5"/>
+
+  <!-- ═══ MAIN BODY (first stage) ═══ -->
+  <path d="M68,376 L68,528 Q88,534 110,535 Q132,534 152,528 L152,376 Z"
+        fill="url(#bodyGrad)"/>
+  <!-- Body panel lines (vertical) -->
+  <line x1="84"  y1="376" x2="84"  y2="528" stroke="#3a5ab8" stroke-width="0.6" opacity="0.4"/>
+  <line x1="95"  y1="376" x2="95"  y2="528" stroke="#8090d0" stroke-width="0.4" opacity="0.3"/>
+  <line x1="110" y1="376" x2="110" y2="528" stroke="#8090d0" stroke-width="0.4" opacity="0.2"/>
+  <line x1="125" y1="376" x2="125" y2="528" stroke="#8090d0" stroke-width="0.4" opacity="0.3"/>
+  <line x1="136" y1="376" x2="136" y2="528" stroke="#3a5ab8" stroke-width="0.6" opacity="0.4"/>
+  <!-- Body horizontal bands -->
+  <rect x="68" y="420" width="84" height="4" fill="#2a3a80" opacity="0.5"/>
+  <rect x="68" y="455" width="84" height="4" fill="#2a3a80" opacity="0.5"/>
+  <rect x="68" y="490" width="84" height="3" fill="#2a3a80" opacity="0.4"/>
+  <!-- SpaceX-style FALCON text area (decorative stripe) -->
+  <rect x="68" y="440" width="84" height="8" fill="#1a2a6e" opacity="0.6"/>
+  <line x1="72"  y1="444" x2="148" y2="444" stroke="#5b8fff" stroke-width="0.5" opacity="0.5"/>
+
+  <!-- ═══ ENGINE BELL CLUSTER ═══ -->
+  <!-- Outer engine bells -->
+  <ellipse cx="88"  cy="530" rx="7"  ry="4" fill="url(#nozzleGrad)" opacity="0.9"/>
+  <ellipse cx="110" cy="532" rx="9"  ry="5" fill="url(#nozzleGrad)" opacity="1"/>
+  <ellipse cx="132" cy="530" rx="7"  ry="4" fill="url(#nozzleGrad)" opacity="0.9"/>
+  <!-- Engine bell rims -->
+  <ellipse cx="88"  cy="530" rx="7"  ry="4" stroke="#5b8fff" stroke-width="0.8" fill="none" opacity="0.6"/>
+  <ellipse cx="110" cy="532" rx="9"  ry="5" stroke="#5b8fff" stroke-width="1"   fill="none" opacity="0.7"/>
+  <ellipse cx="132" cy="530" rx="7"  ry="4" stroke="#5b8fff" stroke-width="0.8" fill="none" opacity="0.6"/>
+
+  <!-- ═══ SECOND STAGE / UPPER BODY ═══ -->
+  <path d="M74,180 L74,358 L146,358 L146,180 Z" fill="url(#bodyGrad)"/>
+  <!-- Panel lines -->
+  <line x1="92"  y1="180" x2="92"  y2="358" stroke="#3a5ab8" stroke-width="0.6" opacity="0.4"/>
+  <line x1="110" y1="180" x2="110" y2="358" stroke="#8090d0" stroke-width="0.4" opacity="0.25"/>
+  <line x1="128" y1="180" x2="128" y2="358" stroke="#3a5ab8" stroke-width="0.6" opacity="0.4"/>
+  <!-- Horizontal bands second stage -->
+  <rect x="74" y="240" width="72" height="4" fill="#2a3a80" opacity="0.5"/>
+  <rect x="74" y="300" width="72" height="3" fill="#2a3a80" opacity="0.4"/>
+
+  <!-- ═══ PAYLOAD FAIRING (top dome) ═══ -->
+  <!-- Fairing body -->
+  <path d="M74,120 L74,185 L146,185 L146,120 Z" fill="url(#bodyGrad)" opacity="0.95"/>
+  <!-- Fairing seam line -->
+  <line x1="110" y1="118" x2="110" y2="185" stroke="#5b8fff" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
+
+  <!-- ═══ NOSE CONE ═══ -->
+  <path d="M110,12 Q88,36 78,72 Q74,96 74,120 L146,120 Q146,96 142,72 Q132,36 110,12 Z"
+        fill="url(#noseGrad)"/>
+  <!-- Nose highlight -->
+  <path d="M110,12 Q100,36 96,72 Q94,96 94,120 L110,120 Z"
+        fill="white" opacity="0.07"/>
+  <!-- Nose tip glow -->
+  <circle cx="110" cy="14" r="4" fill="white" opacity="0.25" filter="url(#glowBlue)"/>
+
+  <!-- ═══ VIEWPORT WINDOWS ═══ -->
+  <!-- Upper window -->
+  <circle cx="110" cy="200" r="10" fill="url(#windowGrad)" stroke="#5b8fff" stroke-width="1" opacity="0.9"/>
+  <circle cx="110" cy="200" r="10" fill="none" stroke="white" stroke-width="0.5" opacity="0.2"/>
+  <!-- Window highlight -->
+  <circle cx="106" cy="196" r="3" fill="white" opacity="0.25"/>
+  <!-- Lower window -->
+  <circle cx="110" cy="290" r="9" fill="url(#windowGrad)" stroke="#5b8fff" stroke-width="1" opacity="0.8"/>
+  <circle cx="106" cy="286" r="2.5" fill="white" opacity="0.2"/>
+
+  <!-- ═══ LANDING LEGS (retracted, shown as struts) ═══ -->
+  <line x1="72" y1="500" x2="52" y2="520" stroke="#4a6ec8" stroke-width="2" opacity="0.7"/>
+  <line x1="72" y1="500" x2="48" y2="516" stroke="#4a6ec8" stroke-width="1" opacity="0.4"/>
+  <line x1="148" y1="500" x2="168" y2="520" stroke="#4a6ec8" stroke-width="2" opacity="0.7"/>
+  <line x1="148" y1="500" x2="172" y2="516" stroke="#4a6ec8" stroke-width="1" opacity="0.4"/>
+
+  <!-- ═══ EDGE HIGHLIGHT (specular reflection) ═══ -->
+  <path d="M74,120 L74,528 Q77,530 80,531 L80,120 Z" fill="white" opacity="0.04"/>
+  <path d="M74,180 L74,358" stroke="white" stroke-width="1.5" opacity="0.08"/>
+
+  <!-- ═══ SURFACE GLOW LINES ═══ -->
+  <line x1="68" y1="376" x2="152" y2="376" stroke="#5b8fff" stroke-width="0.8" opacity="0.6" filter="url(#glowBlue)"/>
+  <line x1="74" y1="180" x2="146" y2="180" stroke="#5b8fff" stroke-width="0.8" opacity="0.5" filter="url(#glowBlue)"/>
+  <line x1="74" y1="120" x2="146" y2="120" stroke="#5b8fff" stroke-width="1"   opacity="0.55" filter="url(#glowBlue)"/>
+</svg>
 
 <button class="hamburger" id="hamburger" aria-label="Toggle menu">
   <span></span><span></span><span></span>
@@ -586,14 +954,10 @@ function buildDots() {
 function applySlider() {
   slCurrent = Math.max(0, Math.min(slCurrent, getMaxIndex()));
 
-  // scrollLeft — reliable native scroll (works in all environments)
   const mask = document.getElementById('sl-mask');
   mask.scrollLeft = slCurrent * SLIDE_W;
-
-  // transform — belt-and-suspenders backup
   document.getElementById('sl-track').style.transform = `translateX(-${slCurrent * SLIDE_W}px)`;
 
-  // sync dots
   const page = Math.floor(slCurrent / getVisible());
   document.querySelectorAll('.slider-dot').forEach((d, i) =>
     d.classList.toggle('active', i === page)
