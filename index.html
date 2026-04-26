@@ -3,820 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine? 💕</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Pacifico&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <title>Alex Morgan — Full-Stack Developer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg:      #07080f;
+            --border:  rgba(255,255,255,0.07);
+            --text:    #e8eaf0;
+            --muted:   rgba(232,234,240,0.42);
+            --accent:  #5b8fff;
+            --accent2: #a78bfa;
+        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html, body { width:100%; height:100%; background:var(--bg); font-family:'DM Mono',monospace; color:var(--text); overflow:hidden; }
+
+        canvas#bg { position:fixed; inset:0; z-index:0; }
+
+        .shell {
+            position:fixed; inset:0; z-index:10;
+            display:grid;
+            grid-template-columns: 210px 1fr;
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ff6b9d 0%, #ffc3d7 50%, #ff9ec3 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-            position: relative;
-            padding: 20px 0;
+        /* Sidebar */
+        aside {
+            border-right:1px solid var(--border);
+            padding:44px 28px;
+            display:flex; flex-direction:column;
+            background:rgba(7,8,15,0.65);
+            backdrop-filter:blur(14px);
+        }
+        .logo { font-family:'DM Serif Display',serif; font-size:1.1rem; color:var(--text); margin-bottom:3px; }
+        .logo-role { font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:48px; }
+
+        nav { display:flex; flex-direction:column; gap:1px; }
+        .nav-link {
+            font-size:0.68rem; letter-spacing:0.09em; text-transform:uppercase;
+            color:var(--muted); padding:10px 12px; border-radius:6px;
+            cursor:pointer; display:flex; align-items:center; gap:9px;
+            transition:color 0.18s, background 0.18s;
+        }
+        .nav-link .dot { width:4px; height:4px; border-radius:50%; background:var(--accent); opacity:0; transition:opacity 0.18s; flex-shrink:0; }
+        .nav-link:hover, .nav-link.active { color:var(--text); background:rgba(91,143,255,0.07); }
+        .nav-link:hover .dot, .nav-link.active .dot { opacity:1; }
+
+        .sidebar-foot {
+            margin-top:auto;
+            padding-top:28px;
+            border-top:1px solid var(--border);
+            display:flex; align-items:center; gap:8px;
+            font-size:0.62rem; letter-spacing:0.09em; text-transform:uppercase; color:var(--muted);
+        }
+        .avail-dot { width:6px; height:6px; border-radius:50%; background:#4ade80; box-shadow:0 0 7px #4ade80; animation:blink 2s ease-in-out infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+        /* Main */
+        main {
+            padding:48px 68px;
+            display:flex; align-items:center;
+            pointer-events:none;
+            overflow:hidden;
         }
 
-        /* Animated gradient background */
-        body::before {
-            content: '';
-            position: fixed;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: radial-gradient(circle, rgba(255,107,157,0.3) 0%, transparent 70%);
-            animation: rotateGradient 15s linear infinite;
-            z-index: 0;
+        .view { display:none; flex-direction:column; animation:fadeIn 0.35s ease; }
+        .view.active { display:flex; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+
+        /* Hero */
+        .hero-eyebrow { font-size:0.62rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-bottom:18px; opacity:0.75; }
+        .hero-name {
+            font-family:'DM Serif Display',serif;
+            font-size:clamp(2.8rem,4.8vw,4.2rem);
+            line-height:1.06; color:var(--text); font-weight:400; margin-bottom:18px;
         }
-
-        @keyframes rotateGradient {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .hero-name em {
+            font-style:italic;
+            background:linear-gradient(120deg,var(--accent),var(--accent2));
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
         }
+        .hero-desc { font-size:0.86rem; line-height:1.85; color:var(--muted); max-width:440px; margin-bottom:36px; }
+        .hero-btns { display:flex; gap:12px; pointer-events:all; }
 
-        /* Floating hearts background */
-        .heart-bg {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 1;
+        .btn-p {
+            padding:10px 26px; border-radius:7px; background:var(--accent); color:#fff;
+            font-family:'DM Mono',monospace; font-size:0.67rem; letter-spacing:0.1em; text-transform:uppercase;
+            cursor:pointer; border:none; transition:all 0.2s;
         }
-
-        .floating-heart {
-            position: absolute;
-            font-size: 20px;
-            animation: float 8s infinite ease-in-out;
-            opacity: 0.4;
-            filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.5));
+        .btn-p:hover { background:#7aaaff; transform:translateY(-1px); box-shadow:0 8px 22px rgba(91,143,255,0.3); }
+        .btn-g {
+            padding:10px 26px; border-radius:7px; background:transparent;
+            color:var(--muted); font-family:'DM Mono',monospace; font-size:0.67rem;
+            letter-spacing:0.1em; text-transform:uppercase; cursor:pointer;
+            border:1px solid var(--border); transition:all 0.2s;
         }
+        .btn-g:hover { color:var(--text); border-color:rgba(255,255,255,0.16); }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg) scale(1);
-            }
-            25% {
-                transform: translateY(-40px) rotate(5deg) scale(1.1);
-            }
-            50% {
-                transform: translateY(-20px) rotate(-5deg) scale(0.9);
-            }
-            75% {
-                transform: translateY(-35px) rotate(3deg) scale(1.05);
-            }
+        /* Section header */
+        .s-label { font-size:0.58rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; opacity:0.7; }
+        .s-title { font-family:'DM Serif Display',serif; font-size:clamp(1.7rem,2.8vw,2.4rem); font-weight:400; color:var(--text); margin-bottom:32px; line-height:1.1; }
+
+        /* About */
+        .about-body { font-size:0.85rem; line-height:1.9; color:var(--muted); max-width:500px; margin-bottom:32px; }
+        .about-body strong { color:var(--text); font-weight:400; }
+        .stats { display:flex; gap:36px; }
+        .stat-n { font-family:'DM Serif Display',serif; font-size:1.7rem; color:var(--text); line-height:1; }
+        .stat-l { font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+
+        /* Skills */
+        .skills { display:flex; flex-direction:column; gap:16px; max-width:480px; margin-bottom:28px; }
+        .sk-row { display:flex; flex-direction:column; gap:6px; }
+        .sk-head { display:flex; justify-content:space-between; }
+        .sk-name { font-size:0.76rem; color:var(--text); }
+        .sk-pct  { font-size:0.62rem; color:var(--muted); }
+        .bar { height:2px; background:var(--border); border-radius:2px; overflow:hidden; }
+        .bar-fill {
+            height:100%; border-radius:2px;
+            background:linear-gradient(90deg,var(--accent),var(--accent2));
+            width:0; transition:width 1s cubic-bezier(0.22,1,0.36,1);
         }
-
-        /* Sparkles */
-        .sparkle {
-            position: fixed;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: sparkleAnimation 3s infinite;
-            box-shadow: 0 0 10px white;
+        .view.active .bar-fill { width:var(--w); }
+        .tags { display:flex; flex-wrap:wrap; gap:7px; }
+        .tag {
+            font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase;
+            color:var(--muted); padding:5px 11px; border:1px solid var(--border); border-radius:4px;
+            transition:color 0.18s, border-color 0.18s;
         }
+        .tag:hover { color:var(--text); border-color:rgba(255,255,255,0.16); }
 
-        @keyframes sparkleAnimation {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1); }
+        /* Projects */
+        .proj-list { display:flex; flex-direction:column; max-width:540px; }
+        .proj-row {
+            display:grid; grid-template-columns:1fr auto; align-items:center;
+            padding:15px 0; border-bottom:1px solid var(--border);
+            cursor:pointer; pointer-events:all;
+            transition:padding-left 0.22s ease;
         }
+        .proj-row:first-child { border-top:1px solid var(--border); }
+        .proj-row:hover { padding-left:7px; }
+        .proj-name { font-size:0.85rem; color:var(--text); margin-bottom:3px; }
+        .proj-sub  { font-size:0.66rem; color:var(--muted); }
+        .proj-arr  { font-size:0.78rem; color:var(--muted); transition:color 0.18s, transform 0.18s; }
+        .proj-row:hover .proj-arr { color:var(--accent); transform:translateX(3px); }
 
-        .container {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 35px;
-            padding: 40px 30px;
-            max-width: 700px;
-            width: 92%;
-            text-align: center;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25), 0 0 40px rgba(255, 107, 157, 0.3);
-            position: relative;
-            z-index: 10;
-            animation: slideInBounce 1s ease-out;
-            border: 3px solid rgba(255, 107, 157, 0.3);
+        /* Contact */
+        .contact-body { font-size:0.85rem; line-height:1.9; color:var(--muted); max-width:420px; margin-bottom:32px; }
+        .contact-list { display:flex; flex-direction:column; max-width:360px; }
+        .contact-row {
+            display:flex; justify-content:space-between; align-items:center;
+            padding:13px 0; border-bottom:1px solid var(--border);
+            cursor:pointer; pointer-events:all; transition:padding-left 0.2s;
         }
-
-        @keyframes slideInBounce {
-            0% {
-                opacity: 0;
-                transform: translateY(-100px) scale(0.8);
-            }
-            60% {
-                opacity: 1;
-                transform: translateY(10px) scale(1.05);
-            }
-            100% {
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-            animation: zoomFadeIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        @keyframes zoomFadeIn {
-            0% { 
-                opacity: 0; 
-                transform: scale(0.5) rotate(-5deg);
-            }
-            100% { 
-                opacity: 1; 
-                transform: scale(1) rotate(0deg);
-            }
-        }
-
-        h1 {
-            font-family: 'Pacifico', cursive;
-            color: #e91e63;
-            font-size: 2.8em;
-            margin-bottom: 20px;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
-            animation: colorShift 3s infinite alternate;
-        }
-
-        @keyframes colorShift {
-            0% { color: #e91e63; }
-            50% { color: #ff4081; }
-            100% { color: #f50057; }
-        }
-
-        .heart-icon {
-            font-size: 5em;
-            margin: 20px 0;
-            animation: heartbeatPulse 1.8s infinite;
-            filter: drop-shadow(0 0 20px rgba(233, 30, 99, 0.6));
-        }
-
-        @keyframes heartbeatPulse {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            10% { transform: scale(0.85) rotate(-2deg); }
-            20% { transform: scale(1.15) rotate(2deg); }
-            30% { transform: scale(0.95) rotate(-1deg); }
-            40% { transform: scale(1.1) rotate(1deg); }
-            50% { transform: scale(1) rotate(0deg); }
-        }
-
-        .question {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1.7em;
-            color: #d81b60;
-            margin: 30px 0;
-            font-weight: 700;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .button-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 35px;
-            flex-wrap: wrap;
-        }
-
-        button {
-            padding: 18px 45px;
-            font-size: 1.3em;
-            font-family: 'Quicksand', sans-serif;
-            border: none;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            font-weight: 700;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        button:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn-yes {
-            background: linear-gradient(135deg, #ff6b9d, #e91e63, #f50057);
-            color: white;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4); }
-            50% { box-shadow: 0 8px 30px rgba(233, 30, 99, 0.7); }
-        }
-
-        .btn-yes:hover {
-            transform: scale(1.15) rotate(2deg);
-            box-shadow: 0 10px 35px rgba(233, 30, 99, 0.6);
-        }
-
-        .btn-no {
-            background: linear-gradient(135deg, #b0bec5, #90a4ae, #78909c);
-            color: white;
-        }
-
-        .btn-no:hover {
-            transform: scale(0.95) rotate(-2deg);
-        }
-
-        /* Fireworks */
-        .firework {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            pointer-events: none;
-            box-shadow: 0 0 10px currentColor;
-        }
-
-        .success-message {
-            animation: successBounce 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        @keyframes successBounce {
-            0% { transform: scale(0) rotate(-180deg); }
-            60% { transform: scale(1.2) rotate(10deg); }
-            100% { transform: scale(1) rotate(0deg); }
-        }
-
-        .shayari-container {
-            margin-top: 45px;
-            padding: 35px;
-            background: linear-gradient(135deg, #fff0f5, #ffe4e9, #ffd6e0);
-            border-radius: 25px;
-            border: 3px solid #ff9ec3;
-            box-shadow: 0 10px 30px rgba(233, 30, 99, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .shayari-container::before {
-            content: '✨';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 2em;
-            animation: rotate 4s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .shayari-line {
-            font-size: 1.25em;
-            color: #c2185b;
-            margin: 18px 0;
-            line-height: 1.9;
-            font-style: italic;
-            font-family: 'Quicksand', sans-serif;
-            opacity: 0;
-            animation: slideInRight 1s ease-out forwards;
-        }
-
-        .shayari-line:nth-child(1) { animation-delay: 0.4s; }
-        .shayari-line:nth-child(2) { animation-delay: 0.7s; }
-        .shayari-line:nth-child(3) { animation-delay: 1s; }
-        .shayari-line:nth-child(4) { animation-delay: 1.3s; }
-        .shayari-line:nth-child(5) { animation-delay: 1.6s; }
-        .shayari-line:nth-child(6) { animation-delay: 1.9s; }
-
-        @keyframes slideInRight {
-            0% {
-                opacity: 0;
-                transform: translateX(-50px) rotate(-5deg);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0) rotate(0deg);
-            }
-        }
-
-        .prayer-section {
-            margin-top: 45px;
-            padding: 35px;
-            background: linear-gradient(135deg, #fff9fa, #fff0f5, #ffe8f0);
-            border-radius: 25px;
-            border: 3px dashed #ff9ec3;
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.15);
-            position: relative;
-            animation: slideInRight 1.2s ease-out;
-            animation-delay: 2.2s;
-            animation-fill-mode: both;
-        }
-
-        .prayer-section::before {
-            content: '🙏';
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            font-size: 2.5em;
-            animation: float 3s infinite ease-in-out;
-        }
-
-        .prayer-title {
-            font-family: 'Pacifico', cursive;
-            font-size: 2em;
-            color: #d81b60;
-            margin-bottom: 20px;
-            animation: colorShift 3s infinite alternate;
-        }
-
-        .prayer-subtitle {
-            font-size: 1.2em;
-            color: #e91e63;
-            margin-bottom: 15px;
-            line-height: 1.7;
-            font-family: 'Quicksand', sans-serif;
-        }
-
-        .privacy-note {
-            font-size: 1.05em;
-            color: #ff4081;
-            margin-bottom: 25px;
-            padding: 15px;
-            background: rgba(255, 64, 129, 0.1);
-            border-radius: 15px;
-            font-weight: 600;
-            line-height: 1.6;
-            border: 2px solid rgba(255, 64, 129, 0.3);
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 160px;
-            padding: 20px;
-            font-size: 1.15em;
-            border: 3px solid #ff9ec3;
-            border-radius: 20px;
-            font-family: 'Quicksand', sans-serif;
-            resize: vertical;
-            transition: all 0.4s ease;
-            background: rgba(255, 255, 255, 0.95);
-            color: #c2185b;
-            margin-bottom: 10px;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: #e91e63;
-            box-shadow: 0 0 25px rgba(233, 30, 99, 0.4);
-            background: white;
-            transform: scale(1.02);
-        }
-
-        .submit-btn {
-            margin-top: 20px;
-            padding: 18px 55px;
-            font-size: 1.3em;
-            font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #ff6b9d, #e91e63, #f50057);
-            color: white;
-            border: none;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            font-weight: 700;
-            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
-        }
-
-        .submit-btn:hover {
-            transform: scale(1.1) rotate(-2deg);
-            box-shadow: 0 10px 35px rgba(233, 30, 99, 0.6);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .final-message {
-            font-family: 'Pacifico', cursive;
-            font-size: 2.2em;
-            color: #c2185b;
-            margin: 35px 0;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
-            animation: bounce 2s infinite;
-        }
-
-        .love-note {
-            margin: 30px 0;
-            padding: 25px;
-            background: linear-gradient(135deg, #ffe4e9, #fff0f5, #ffd6e0);
-            border-radius: 20px;
-            font-size: 1.2em;
-            color: #c2185b;
-            line-height: 1.9;
-            font-family: 'Quicksand', sans-serif;
-            border-left: 5px solid #ff4081;
-            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.15);
-            animation: slideInRight 1s ease-out;
-        }
-
-        .special-qualities {
-            margin-top: 35px;
-            padding: 30px;
-            background: rgba(255, 192, 203, 0.25);
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.15);
-        }
-
-        .quality-item {
-            font-size: 1.2em;
-            color: #d81b60;
-            margin: 18px 0;
-            padding: 16px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 600;
-            border-left: 4px solid #ff4081;
-        }
-
-        .quality-item:hover {
-            transform: translateX(15px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.3);
-            background: linear-gradient(135deg, #fff, #fff0f5);
-        }
-
-        .success-msg {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: linear-gradient(135deg, #4caf50, #66bb6a);
-            color: white;
-            border-radius: 20px;
-            font-size: 1.2em;
-            font-weight: 700;
-            font-family: 'Quicksand', sans-serif;
-            animation: successBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-        }
-
-        /* Mobile Optimization */
-        @media (max-width: 768px) {
-            .container {
-                padding: 30px 20px;
-                width: 95%;
-            }
-
-            h1 {
-                font-size: 2.2em;
-            }
-
-            .question {
-                font-size: 1.4em;
-            }
-
-            .heart-icon {
-                font-size: 4em;
-            }
-
-            button {
-                padding: 15px 35px;
-                font-size: 1.1em;
-            }
-
-            .shayari-line {
-                font-size: 1.1em;
-            }
-
-            .prayer-title {
-                font-size: 1.6em;
-            }
-
-            .prayer-subtitle {
-                font-size: 1.05em;
-            }
-
-            textarea {
-                min-height: 140px;
-                font-size: 1em;
-            }
-
-            .quality-item {
-                font-size: 1.05em;
-            }
-
-            .final-message {
-                font-size: 1.8em;
-            }
-
-            .love-note {
-                font-size: 1.05em;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8em;
-            }
-
-            .question {
-                font-size: 1.2em;
-            }
-
-            .button-container {
-                gap: 15px;
-            }
-
-            button {
-                padding: 12px 28px;
-                font-size: 1em;
-            }
-
-            .shayari-container, .prayer-section, .special-qualities {
-                padding: 25px 20px;
-            }
-
-            .privacy-note {
-                font-size: 0.95em;
-            }
-        }
+        .contact-row:first-child { border-top:1px solid var(--border); }
+        .contact-row:hover { padding-left:6px; }
+        .c-label { font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
+        .c-val   { font-size:0.76rem; color:var(--text); transition:color 0.18s; }
+        .contact-row:hover .c-val { color:var(--accent); }
     </style>
 </head>
 <body>
-    <!-- Floating hearts background -->
-    <div class="heart-bg" id="heartBg"></div>
 
-    <div class="container">
-        <!-- Page 1: Initial Question -->
-        <div class="page active" id="page1">
-            <div class="heart-icon">❤️</div>
-            <h1>Hey Beautiful!</h1>
-            <p class="question">Will You Be My Valentine? 💕</p>
-            <div class="button-container">
-                <button class="btn-yes" onclick="showSuccess()">Yes! 😍</button>
-                <button class="btn-no" onclick="showPage2()">No 😢</button>
+<canvas id="bg"></canvas>
+
+<div class="shell">
+    <aside>
+        <div class="logo">Alex Morgan</div>
+        <div class="logo-role">Full-Stack Developer</div>
+        <nav>
+            <div class="nav-link active" data-view="home"><span class="dot"></span>Home</div>
+            <div class="nav-link" data-view="about"><span class="dot"></span>About</div>
+            <div class="nav-link" data-view="skills"><span class="dot"></span>Skills</div>
+            <div class="nav-link" data-view="projects"><span class="dot"></span>Projects</div>
+            <div class="nav-link" data-view="contact"><span class="dot"></span>Contact</div>
+        </nav>
+        <div class="sidebar-foot">
+            <span class="avail-dot"></span>Available for work
+        </div>
+    </aside>
+
+    <main>
+        <!-- Home -->
+        <div id="view-home" class="view active">
+            <div class="hero-eyebrow">Portfolio · 2026</div>
+            <h1 class="hero-name">Crafting digital<br>experiences <em>beyond</em><br>the ordinary.</h1>
+            <p class="hero-desc">I build full-stack web applications that are fast, scalable, and thoughtfully designed — from interactive 3D interfaces to robust backend systems.</p>
+            <div class="hero-btns">
+                <button class="btn-p" data-view="projects">View Projects</button>
+                <button class="btn-g" data-view="contact">Get in Touch</button>
             </div>
         </div>
 
-        <!-- Page 2: Are you sure? -->
-        <div class="page" id="page2">
-            <div class="heart-icon">💔</div>
-            <h1>Wait... What?!</h1>
-            <p class="question">Are you SURE you don't want to be my Valentine? 🥺</p>
-            <p style="color: #d81b60; margin: 20px 0; font-size: 1.15em;">Think about all our moments together...</p>
-            <div class="button-container">
-                <button class="btn-yes" onclick="showSuccess()">Yes, I'll be! 💕</button>
-                <button class="btn-no" id="movingNo" onclick="showPage3()" onmouseover="moveButton()">Still No 😔</button>
-            </div>
-        </div>
-
-        <!-- Page 3: Last Chance -->
-        <div class="page" id="page3">
-            <div class="heart-icon">💝</div>
-            <h1>Last Chance!</h1>
-            <p class="question">I'm giving you ONE LAST CHANCE! 🌹</p>
-            <p style="color: #d81b60; margin: 20px 0; font-size: 1.2em;">
-                You know you can't resist this smile! 😊<br>
-                Plus, I already bought the chocolates... 🍫
+        <!-- About -->
+        <div id="view-about" class="view">
+            <div class="s-label">About</div>
+            <h2 class="s-title">Building at the intersection<br>of design &amp; engineering.</h2>
+            <p class="about-body">
+                I'm a full-stack developer with <strong>5+ years of experience</strong> shipping web products used by thousands of people. I care deeply about <strong>performance</strong>, clean architecture, and experiences that feel effortless.<br><br>
+                Outside of work I contribute to open source, explore 3D on the web, and write about software systems.
             </p>
-            <div class="button-container">
-                <button class="btn-yes" onclick="showSuccess()" style="font-size: 1.5em; padding: 22px 65px;">
-                    YES! 💖 (Only Option 😉)
-                </button>
+            <div class="stats">
+                <div><div class="stat-n">50+</div><div class="stat-l">Projects shipped</div></div>
+                <div><div class="stat-n">5</div><div class="stat-l">Years experience</div></div>
+                <div><div class="stat-n">12k</div><div class="stat-l">GitHub stars</div></div>
             </div>
         </div>
 
-        <!-- Success Page -->
-        <div class="page" id="successPage">
-            <div class="success-message">
-                <div class="heart-icon" style="font-size: 5.5em;">💕</div>
-                <h1 style="color: #e91e63; font-size: 3.5em;">Yaaay! 🎉</h1>
-                <p class="final-message">You made me the happiest!</p>
-                
-                <div class="shayari-container">
-                    <div class="shayari-line">तेरी हंसी में मेरी दुनिया बसती है,</div>
-                    <div class="shayari-line">तेरी अक्लमंदी से मेरी राहें संवरती हैं।</div>
-                    <div class="shayari-line">तू जो संभाल ले तो ज़िंदगी आसान हो जाती है,</div>
-                    <div class="shayari-line">तेरे साथ में हर मुश्किल भी हसीन लगती है।</div>
-                    <div class="shayari-line">मैं परेशान करूं कितना भी, तू है मेरे साथ,</div>
-                    <div class="shayari-line">तेरे बिना अधूरी है मेरी हर बात।</div>
-                </div>
-
-                <div class="love-note">
-                    You're not just cute, you're absolutely adorable! Your intelligence amazes me every day, 
-                    and the way you handle my constant irritation with such grace shows just how 
-                    special you are. You're my strength, my support, and my everything. I'm so lucky to have 
-                    you in my life! 💝
-                </div>
-
-                <div class="special-qualities">
-                    <h3 style="color: #e91e63; margin-bottom: 25px; font-size: 1.8em; font-family: 'Pacifico', cursive;">Why You're Amazing 💖</h3>
-                    <div class="quality-item">🌟 Your smile lights up my darkest days</div>
-                    <div class="quality-item">🧠 Your intelligence inspires me to be better</div>
-                    <div class="quality-item">💪 Your strength keeps me going when I'm weak</div>
-                    <div class="quality-item">❤️ Your love makes every moment magical</div>
-                    <div class="quality-item">🌈 Your presence makes life colorful and beautiful</div>
-                </div>
-
-                <!-- Prayer Section (Wishes disguised as prayers to God) -->
-                <div class="prayer-section">
-                    <div class="prayer-title">🙏 Send Your Wishes to God 🙏</div>
-                    <div class="prayer-subtitle">
-                        Write your deepest wishes and prayers here. It will go directly to God! ✨
-                    </div>
-                    <div class="privacy-note">
-                        🔒 This will go directly to God. It will always remain between God and you. 
-                        Don't worry, write whatever your heart desires! 🔒
-                    </div>
-                    <textarea 
-                        id="prayerInput" 
-                        placeholder="Dear God, I wish for... I pray that... I hope... My dreams are... 💫✨🌟"
-                    ></textarea>
-                    <button class="submit-btn" onclick="sendPrayer()">Send to God 🌟</button>
-                    <div class="success-msg" id="prayerSaved">
-                        ✨ Your prayers have been sent to God! 🙏💖
-                    </div>
-                </div>
-
-                <p style="margin-top: 45px; font-size: 1.6em; color: #c2185b; font-weight: 700; font-family: 'Pacifico', cursive;">
-                    Happy Valentine's Day, My Beautiful! 🌹✨
-                </p>
-                <p style="margin-top: 18px; font-size: 1.3em; color: #d81b60; font-family: 'Quicksand', sans-serif;">
-                    Forever yours, with all my heart! 💖
-                </p>
+        <!-- Skills -->
+        <div id="view-skills" class="view">
+            <div class="s-label">Skills</div>
+            <h2 class="s-title">Technologies I work<br>with every day.</h2>
+            <div class="skills">
+                <div class="sk-row"><div class="sk-head"><span class="sk-name">Frontend</span><span class="sk-pct">95%</span></div><div class="bar"><div class="bar-fill" style="--w:95%"></div></div></div>
+                <div class="sk-row"><div class="sk-head"><span class="sk-name">Backend / APIs</span><span class="sk-pct">90%</span></div><div class="bar"><div class="bar-fill" style="--w:90%"></div></div></div>
+                <div class="sk-row"><div class="sk-head"><span class="sk-name">Databases</span><span class="sk-pct">85%</span></div><div class="bar"><div class="bar-fill" style="--w:85%"></div></div></div>
+                <div class="sk-row"><div class="sk-head"><span class="sk-name">DevOps / Cloud</span><span class="sk-pct">80%</span></div><div class="bar"><div class="bar-fill" style="--w:80%"></div></div></div>
+                <div class="sk-row"><div class="sk-head"><span class="sk-name">3D / WebGL</span><span class="sk-pct">75%</span></div><div class="bar"><div class="bar-fill" style="--w:75%"></div></div></div>
+            </div>
+            <div class="tags">
+                <span class="tag">React</span><span class="tag">Next.js</span><span class="tag">TypeScript</span>
+                <span class="tag">Node.js</span><span class="tag">Python</span><span class="tag">PostgreSQL</span>
+                <span class="tag">Docker</span><span class="tag">AWS</span><span class="tag">Three.js</span>
             </div>
         </div>
-    </div>
 
-    <script>
-        // ============================================
-        // REPLACE WITH YOUR GOOGLE FORM INFO
-        // ============================================
-        const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/u/0/d/12FEm0DaYVJT6OWf8Qxt1maOw0Alw9EOwx73w_leeKgw/formResponse';
-        const ENTRY_WISHES = 'entry.1694642760';
-        // ============================================
+        <!-- Projects -->
+        <div id="view-projects" class="view">
+            <div class="s-label">Projects</div>
+            <h2 class="s-title">Selected work.</h2>
+            <div class="proj-list">
+                <div class="proj-row"><div><div class="proj-name">SpaceX Mission Dashboard</div><div class="proj-sub">Real-time telemetry · React · Three.js · Node.js</div></div><span class="proj-arr">→</span></div>
+                <div class="proj-row"><div><div class="proj-name">NeuroChat — AI Platform</div><div class="proj-sub">Multi-modal LLM chat · Next.js · OpenAI · Redis</div></div><span class="proj-arr">→</span></div>
+                <div class="proj-row"><div><div class="proj-name">Analytics Cosmos</div><div class="proj-sub">SaaS analytics · Vue 3 · FastAPI · ClickHouse</div></div><span class="proj-arr">→</span></div>
+                <div class="proj-row"><div><div class="proj-name">NFT Launchpad</div><div class="proj-sub">Web3 minting platform · React · Solidity · ethers.js</div></div><span class="proj-arr">→</span></div>
+                <div class="proj-row"><div><div class="proj-name">EcoTrack API</div><div class="proj-sub">Open source · Node.js · PostgreSQL · Stripe</div></div><span class="proj-arr">→</span></div>
+            </div>
+        </div>
 
-        // Create floating hearts
-        function createFloatingHearts() {
-            const heartBg = document.getElementById('heartBg');
-            for (let i = 0; i < 20; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'floating-heart';
-                heart.innerHTML = '❤️';
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.top = Math.random() * 100 + '%';
-                heart.style.animationDelay = Math.random() * 4 + 's';
-                heart.style.fontSize = (Math.random() * 25 + 15) + 'px';
-                heartBg.appendChild(heart);
-            }
-        }
+        <!-- Contact -->
+        <div id="view-contact" class="view">
+            <div class="s-label">Contact</div>
+            <h2 class="s-title">Let's build something<br>together.</h2>
+            <p class="contact-body">Open to freelance projects, full-time roles, and interesting collaborations. I typically respond within 24 hours.</p>
+            <div class="contact-list">
+                <div class="contact-row"><span class="c-label">Email</span><span class="c-val">hello@alexmorgan.dev</span></div>
+                <div class="contact-row"><span class="c-label">GitHub</span><span class="c-val">github.com/alexmorgan</span></div>
+                <div class="contact-row"><span class="c-label">LinkedIn</span><span class="c-val">linkedin.com/in/alexmorgan</span></div>
+                <div class="contact-row"><span class="c-label">Twitter / X</span><span class="c-val">@alexmorgandev</span></div>
+            </div>
+        </div>
+    </main>
+</div>
 
-        // Create sparkles
-        function createSparkles() {
-            for (let i = 0; i < 30; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle';
-                sparkle.style.left = Math.random() * 100 + '%';
-                sparkle.style.top = Math.random() * 100 + '%';
-                sparkle.style.animationDelay = Math.random() * 3 + 's';
-                document.body.appendChild(sparkle);
-            }
-        }
+<script>
+/* Three.js — minimal star field */
+const canvas = document.getElementById('bg');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setClearColor(0x07080f, 1);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 
-        createFloatingHearts();
-        createSparkles();
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
+camera.position.z = 60;
 
-        function showPage2() {
-            document.getElementById('page1').classList.remove('active');
-            document.getElementById('page2').classList.add('active');
-        }
+function resize() {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+}
+resize();
+window.addEventListener('resize', resize);
 
-        function showPage3() {
-            document.getElementById('page2').classList.remove('active');
-            document.getElementById('page3').classList.add('active');
-        }
+/* White stars */
+const geo = new THREE.BufferGeometry();
+const n = 3000, p = new Float32Array(n * 3);
+for (let i = 0; i < n; i++) {
+    p[i*3]   = (Math.random()-0.5)*700;
+    p[i*3+1] = (Math.random()-0.5)*700;
+    p[i*3+2] = (Math.random()-0.5)*400 - 60;
+}
+geo.setAttribute('position', new THREE.BufferAttribute(p, 3));
+const mat = new THREE.PointsMaterial({ color:0xffffff, size:0.32, transparent:true, opacity:0.5 });
+scene.add(new THREE.Points(geo, mat));
 
-        function moveButton() {
-            const btn = document.getElementById('movingNo');
-            const maxX = window.innerWidth > 768 ? 150 : 80;
-            const maxY = window.innerWidth > 768 ? 150 : 80;
-            const x = Math.random() * maxX * 2 - maxX;
-            const y = Math.random() * maxY * 2 - maxY;
-            btn.style.transform = `translate(${x}px, ${y}px)`;
-        }
+/* Blue accent stars */
+const geo2 = new THREE.BufferGeometry();
+const p2 = new Float32Array(400*3);
+for (let i = 0; i < 400; i++) {
+    p2[i*3]   = (Math.random()-0.5)*600;
+    p2[i*3+1] = (Math.random()-0.5)*600;
+    p2[i*3+2] = (Math.random()-0.5)*300 - 40;
+}
+geo2.setAttribute('position', new THREE.BufferAttribute(p2, 3));
+scene.add(new THREE.Points(geo2, new THREE.PointsMaterial({ color:0x5b8fff, size:0.5, transparent:true, opacity:0.35 })));
 
-        function showSuccess() {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById('successPage').classList.add('active');
-            createFireworks();
-        }
+/* Faint nebula ring, far back */
+const neb = new THREE.Mesh(
+    new THREE.TorusGeometry(90, 28, 3, 70),
+    new THREE.MeshBasicMaterial({ color:0x0d1a44, wireframe:true, transparent:true, opacity:0.05 })
+);
+neb.rotation.x = 1.1; neb.position.z = -140;
+scene.add(neb);
 
-        function createFireworks() {
-            const colors = ['#ff1744', '#f50057', '#d500f9', '#ff4081', '#ff6e40', '#ffd700', '#00e676'];
-            
-            for (let i = 0; i < 150; i++) {
-                setTimeout(() => {
-                    const firework = document.createElement('div');
-                    firework.className = 'firework';
-                    firework.style.left = Math.random() * window.innerWidth + 'px';
-                    firework.style.top = Math.random() * window.innerHeight + 'px';
-                    const color = colors[Math.floor(Math.random() * colors.length)];
-                    firework.style.background = color;
-                    firework.style.color = color;
-                    document.body.appendChild(firework);
+let mx=0, my=0;
+document.addEventListener('mousemove', e => {
+    mx = (e.clientX/window.innerWidth  - 0.5)*2;
+    my = (e.clientY/window.innerHeight - 0.5)*2;
+});
 
-                    const angle = Math.random() * Math.PI * 2;
-                    const velocity = Math.random() * 250 + 150;
-                    const vx = Math.cos(angle) * velocity;
-                    const vy = Math.sin(angle) * velocity;
+let t=0;
+(function loop(){
+    requestAnimationFrame(loop); t+=0.003;
+    camera.position.x += (mx*5 - camera.position.x)*0.025;
+    camera.position.y += (-my*3 - camera.position.y)*0.025;
+    camera.lookAt(0,0,0);
+    neb.rotation.z += 0.0004;
+    mat.opacity = 0.45 + Math.sin(t)*0.06;
+    renderer.render(scene, camera);
+})();
 
-                    let x = parseFloat(firework.style.left);
-                    let y = parseFloat(firework.style.top);
-                    let opacity = 1;
-
-                    const animate = () => {
-                        x += vx * 0.016;
-                        y += vy * 0.016;
-                        opacity -= 0.015;
-
-                        firework.style.left = x + 'px';
-                        firework.style.top = y + 'px';
-                        firework.style.opacity = opacity;
-
-                        if (opacity > 0) {
-                            requestAnimationFrame(animate);
-                        } else {
-                            firework.remove();
-                        }
-                    };
-
-                    animate();
-                }, i * 15);
-            }
-        }
-
-        function sendPrayer() {
-            const input = document.getElementById('prayerInput');
-            const prayer = input.value.trim();
-            
-            if (prayer === '') {
-                alert('Please write your prayers and wishes! 🙏💕');
-                return;
-            }
-
-            // Send to Google Forms
-            const formData = new FormData();
-            formData.append(ENTRY_WISHES, prayer);
-
-            fetch(GOOGLE_FORM_ACTION_URL, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            }).then(() => {
-                document.getElementById('prayerSaved').style.display = 'block';
-                input.value = '';
-                setTimeout(() => {
-                    document.getElementById('prayerSaved').style.display = 'none';
-                }, 5000);
-            }).catch((error) => {
-                // Even on error, show success (because no-cors doesn't return response)
-                document.getElementById('prayerSaved').style.display = 'block';
-                input.value = '';
-                setTimeout(() => {
-                    document.getElementById('prayerSaved').style.display = 'none';
-                }, 5000);
-            });
-        }
-    </script>
+/* Navigation */
+function show(id) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+    document.getElementById('view-'+id).classList.add('active');
+    document.querySelectorAll('[data-view="'+id+'"]').forEach(n => n.classList.add('active'));
+}
+document.querySelectorAll('[data-view]').forEach(el => {
+    el.style.pointerEvents = 'all';
+    el.addEventListener('click', () => show(el.dataset.view));
+});
+</script>
 </body>
 </html>
